@@ -1,8 +1,8 @@
-#summary One-sentence summary of this page.
+#summary how to use pysage
 
 = Introduction =
 
-Add your content here.
+pysage can trigger or queue message to a specific object
 
 
 ==Advanced Usage==
