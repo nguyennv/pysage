@@ -5,9 +5,19 @@
 Add your content here.
 
 
-= Details =
+==Advanced Usage==
+{{{
+class MessageToPack(Message):
+    properties = ['number']
+    def pack_number(self, value):
+        return encode(value)
+    def unpack_number(self, value):
+        return decode(value)
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+# sends a particular game object a message if that game object implements this message type
+#            returns True: if event was consumed
+#                    False: otherwise
+ObjectManager.getSingleton().triggerToObject(self, id, msg)
+ObjectManager.getSingleton().queueMessageToObject(self, id, msg)
+
+}}}
