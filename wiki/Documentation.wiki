@@ -7,6 +7,7 @@ pysage can trigger or queue message to a specific object
 
 ==Advanced Usage==
 {{{
+# packing can be useful for sending messages across network
 class MessageToPack(Message):
     properties = ['number']
     def pack_number(self, value):
