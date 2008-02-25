@@ -18,7 +18,7 @@ class MessageToPack(Message):
 # sends a particular game object a message if that game object implements this message type
 #            returns True: if event was consumed
 #                    False: otherwise
-ObjectManager.getSingleton().trigger_to_object(self, id, msg)
-ObjectManager.getSingleton().queue_message_to_object(self, id, msg)
+ObjectManager.get_singleton().trigger_to_object(self, id, msg)
+ObjectManager.get_singleton().queue_message_to_object(self, id, msg)
 
 }}}
