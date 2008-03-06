@@ -49,7 +49,7 @@ mgr.set_groups(['worker group'])
 use the method `manager.register_object(instance, name[, groupname])` to put message listeners to a specific group
 
 {{{
-# omitting the group name automatically puts the "consumer" listener in the main thread
+# omitting the group name automatically puts the listener in the main group/thread
 mgr.register_object(Consumer(), 'consumer') 
 
 # this puts the "worker" listener in the "worker group" group/thread
