@@ -2,8 +2,8 @@
 
 =Advanced Usage:=
 ==Automatic Message Packing/Unpacking==
+packing can be useful for sending messages across network (possible in the future)
 {{{
-# packing can be useful for sending messages across network
 class MessageToPack(Message):
     properties = ['number']
     def pack_number(self, value):
@@ -16,15 +16,14 @@ class MessageToPack(Message):
 mgr.queue_message(MessageToPack(number=vector2(1,2)))
 }}}
 ===Selective Queuing/Triggering==
+sends a particular object a message if that object implements this message type
 {{{
-# sends a particular object a message if that object implements this message type
-#            returns True: if event was consumed
-#                    False: otherwise
 mgr.trigger_to_object(self, id, msg)
 mgr.queue_message_to_object(self, id, msg)
 
 }}}
 ==Grouping (Automatic Threads Management)==
+Grouping can be very useful in partitioning object listeners into separate threads (processes in the future) that have their own independent update/message handling loop 
 {{{
 class Consumer(MessageReceiver):
     subscriptions = ['SomeWorkDoneMessage']
