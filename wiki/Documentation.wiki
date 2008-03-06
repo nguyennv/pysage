@@ -36,6 +36,7 @@ class Worker(MessageReceiver):
         pass
     def update(self, evt):
         '''this automatically gets called in a separate thread per tick'''
+        # queuing is strongly advised instead of triggering in multi-threaded environment
         mgr.queue_message(SomeWorkDoneMessage())
 
 # this will internally start a separate thread that all message receivers that belong to the "worker group" will run in
