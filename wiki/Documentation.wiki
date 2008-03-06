@@ -5,7 +5,7 @@
 pysage can trigger or queue message to a specific object
 
 
-==Advanced Usage==
+==Advanced Usage:==
 ===Automatic Message Packing/Unpacking===
 {{{
 # packing can be useful for sending messages across network
