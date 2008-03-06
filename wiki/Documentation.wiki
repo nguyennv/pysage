@@ -2,7 +2,7 @@
 
 =Advanced Usage:=
 ==Automatic Message Packing/Unpacking==
-packing can be useful for sending messages across network (possible in the future)
+packing can be useful for sending messages across network.  This may prove to be useful in the future when pysage supports cross processing message queuing.
 {{{
 class MessageToPack(Message):
     properties = ['number']
@@ -23,7 +23,7 @@ mgr.queue_message_to_object(self, id, msg)
 
 }}}
 ==Grouping (Automatic Threads Management)==
-Grouping can be very useful in partitioning object listeners into separate threads (processes in the future) that have their own independent update/message handling loop 
+Grouping can be very useful in partitioning object listeners into separate threads (processes in the future).  Objects in different groups have their own independent update/message handling loop.  Yet messages can be communicated across threads.  pysage is internally written to be thread-safe.  However, it is only as thread-safe as the user written code (messaging handling, updating, etc).
 {{{
 class Consumer(MessageReceiver):
     subscriptions = ['SomeWorkDoneMessage']
