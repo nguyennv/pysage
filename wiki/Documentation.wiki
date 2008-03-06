@@ -40,8 +40,9 @@ class Worker(MessageReceiver):
         mgr.queue_message(SomeWorkDoneMessage())
 
 }}}
-calling "set_groups" will internally start a separate thread per group that all message receivers that belong to the "worker group" will run in
+calling "set_groups" will internally start a separate thread per group that all message receivers that belong to that group will run in
 {{{
+# in this case, our "worker group"
 mgr.set_groups(['worker group'])
 }}}
 
