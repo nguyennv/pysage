@@ -39,9 +39,11 @@ class Worker(MessageReceiver):
         # queuing is strongly advised instead of triggering in multi-threaded environment
         mgr.queue_message(SomeWorkDoneMessage())
 
-# this will internally start a separate thread that all message receivers that belong to the "worker group" will run in
-mgr.set_groups(['worker group'])
+}}}
+this will internally start a separate thread that all message receivers that belong to the "worker group" will run in
+`mgr.set_groups(['worker group'])`
 
+{{{
 # manager.register_object(instance, name[, groupname])
 
 # omitting the group name automatically puts the "consumer" listener in the main thread
