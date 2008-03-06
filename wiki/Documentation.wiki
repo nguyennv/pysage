@@ -11,14 +11,18 @@ pysage can trigger or queue message to a specific object
 class MessageToPack(Message):
     properties = ['number']
     def pack_number(self, value):
-        return encode(value)
+        return (value.x, value.y)
     def unpack_number(self, value):
-        return decode(value)
+        return vector2(value[0], value[1])
+
+# now this message will automatically be stored as a tuple (1,2)
+# upon accessing, it will be converted to a vector object transparently
+mgr.queue_message(MessageToPack(number=vector2(1,2)))
 
 # sends a particular object a message if that object implements this message type
 #            returns True: if event was consumed
 #                    False: otherwise
-ObjectManager.get_singleton().trigger_to_object(self, id, msg)
-ObjectManager.get_singleton().queue_message_to_object(self, id, msg)
+mgr.trigger_to_object(self, id, msg)
+mgr.queue_message_to_object(self, id, msg)
 
 }}}
