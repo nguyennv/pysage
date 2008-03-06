@@ -15,7 +15,7 @@ class MessageToPack(Message):
     def unpack_number(self, value):
         return decode(value)
 
-# sends a particular game object a message if that game object implements this message type
+# sends a particular object a message if that object implements this message type
 #            returns True: if event was consumed
 #                    False: otherwise
 ObjectManager.get_singleton().trigger_to_object(self, id, msg)
