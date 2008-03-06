@@ -39,7 +39,7 @@ class Worker(MessageReceiver):
         '''this automatically gets called in a separate thread 30 times per second'''
         do_some_routine_work()
 
-# this will internally start a separate thread that all message receivers that belong to worker group will run in
+# this will internally start a separate thread that all message receivers that belong to the "worker group" will run in
 mgr.set_groups(['worker group'])
 
 }}}
