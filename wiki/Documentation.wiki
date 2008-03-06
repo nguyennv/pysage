@@ -45,9 +45,10 @@ calling "set_groups" will internally start a separate thread per group that all 
 mgr.set_groups(['worker group'])
 }}}
 
-{{{
-# manager.register_object(instance, name[, groupname])
 
+use the method `manager.register_object(instance, name[, groupname])` to put message listeners to a specific group
+
+{{{
 # omitting the group name automatically puts the "consumer" listener in the main thread
 mgr.register_object(Consumer(), 'consumer') 
 
