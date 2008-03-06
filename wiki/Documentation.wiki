@@ -49,5 +49,4 @@ mgr.register_object(Consumer(), 'consumer')
 
 # this puts the "worker" listener in the "worker group" group/thread
 mgr.register_object(Worker(), 'worker', 'worker group')
-
 }}}
