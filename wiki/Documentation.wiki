@@ -41,7 +41,9 @@ class Worker(MessageReceiver):
 
 }}}
 this will internally start a separate thread that all message receivers that belong to the "worker group" will run in
-`mgr.set_groups(['worker group'])`
+{{{
+mgr.set_groups(['worker group'])
+}}}
 
 {{{
 # manager.register_object(instance, name[, groupname])
