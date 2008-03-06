@@ -19,8 +19,10 @@ class MessageToPack(Message):
 # now this message will automatically be stored as a tuple (1,2)
 # upon accessing, it will be converted to a vector object transparently
 mgr.queue_message(MessageToPack(number=vector2(1,2)))
+}}}
 
 ===Selective Queuing/Triggering===
+{{{
 # sends a particular object a message if that object implements this message type
 #            returns True: if event was consumed
 #                    False: otherwise
