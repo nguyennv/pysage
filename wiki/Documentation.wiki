@@ -53,7 +53,7 @@ use the method `manager.register_object(instance, name[, groupname])` to put mes
 # omitting the group name automatically puts the listener in the main group/thread
 mgr.register_object(Consumer(), 'consumer') 
 
-# this puts the "worker" listener in the "worker group" group/thread
+# this puts the "worker" listener in the "worker_group" group/thread
 mgr.register_object(Worker(), 'worker', 'worker_group')
 }}}
 pysage is internally written to be thread-safe.  However, it is only as thread-safe as the user written code (messaging handling, updating, etc).
