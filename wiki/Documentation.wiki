@@ -43,7 +43,7 @@ class Worker(MessageReceiver):
 calling "set_groups" will internally start a separate thread per group that all message receivers that belong to that group will run in
 {{{
 # in this case, our "worker group"
-mgr.set_groups(['worker group'])
+mgr.set_groups(['worker_group'])
 }}}
 
 
@@ -54,6 +54,6 @@ use the method `manager.register_object(instance, name[, groupname])` to put mes
 mgr.register_object(Consumer(), 'consumer') 
 
 # this puts the "worker" listener in the "worker group" group/thread
-mgr.register_object(Worker(), 'worker', 'worker group')
+mgr.register_object(Worker(), 'worker', 'worker_group')
 }}}
 pysage is internally written to be thread-safe.  However, it is only as thread-safe as the user written code (messaging handling, updating, etc).
