@@ -23,7 +23,7 @@ mgr.queue_message_to_object(self, id, msg)
 
 }}}
 ==Grouping (Automatic Threads Management)==
-Grouping can be very useful in partitioning object listeners into separate threads (processes in the future).  Objects in different groups have their own independent update/message handling loop.  Yet messages can be communicated across threads.  
+Grouping can be very useful in partitioning object listeners into separate threads (processes in the future).  Objects in different groups have their own independent update/message handling loop.  And messages can be communicated across threads.  
 {{{
 class Consumer(MessageReceiver):
     subscriptions = ['SomeWorkDoneMessage']
