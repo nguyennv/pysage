@@ -3,7 +3,9 @@
 =API Reference=
 ==Class ObjectManager==
 ===register_object(instance, name[, groupname])===
+pass
 ===add_group(self, name, max_tick_time=None, interval=.03, minimum_sleep=.001)===
+pass
 
 =Advanced Usage:=
 ==Automatic Message Packing/Unpacking==
