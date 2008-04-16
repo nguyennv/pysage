@@ -1,5 +1,7 @@
 #summary how to use pysage
 
+For more in-depth reference, see [http://code.google.com/p/pysage/wiki/Documentation api reference]
+
 =Tutorial=
 ==Automatic Message Packing/Unpacking==
 packing can be useful for sending messages across network.  This may prove to be useful in the future when pysage supports cross processing message queuing.
