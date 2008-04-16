@@ -1,13 +1,5 @@
 #summary how to use pysage
 
-=API Reference=
-==Class ObjectManager==
-  * *register_object(instance, name[, groupname])*
-    Registers a listener with the manager, subscribing to necessary message types
-    groupname is optional.  Use groupname is you want to put the instance into a specific group besides the main group.
-  * *add_group(name, max_tick_time=None, interval=.03, minimum_sleep=.001)*
-    Registers with the manager a group.  Objects in a group can only operate on a seperate thread currently.
-
 =Tutorial=
 ==Automatic Message Packing/Unpacking==
 packing can be useful for sending messages across network.  This may prove to be useful in the future when pysage supports cross processing message queuing.
