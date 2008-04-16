@@ -1,3 +1,5 @@
+#summary how to use pysage
+
 =API Reference=
 ==Class ObjectManager==
   * *register_object(instance, name[, groupname])*
