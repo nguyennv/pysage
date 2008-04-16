@@ -1,6 +1,6 @@
 #summary how to use pysage
 
-For more API documentation, see [http://code.google.com/p/pysage/wiki/Documentation reference]
+For more API documentation, see [http://code.google.com/p/pysage/wiki/API reference]
 
 =Tutorial=
 ==Automatic Message Packing/Unpacking==
