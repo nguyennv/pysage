@@ -1,8 +1,9 @@
 #summary how to use pysage
 
 =API Reference=
-==ObjectManager==
-add_group(self, name, max_tick_time=None, interval=.03, minimum_sleep=.001)
+==Class ObjectManager==
+`register_object(instance, name[, groupname])`
+`add_group(self, name, max_tick_time=None, interval=.03, minimum_sleep=.001)`
 
 
 =Advanced Usage:=
