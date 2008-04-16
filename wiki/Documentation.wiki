@@ -5,7 +5,7 @@
   * *register_object(instance, name[, groupname])*
     Registers a listener with the manager, subscribing to necessary message types
     groupname is optional.  Use groupname is you want to put the instance into a specific group besides the main group.
-  * *add_group(self, name, max_tick_time=None, interval=.03, minimum_sleep=.001)*
+  * *add_group(name, max_tick_time=None, interval=.03, minimum_sleep=.001)*
     Registers with the manager a group.  Objects in a group can only operate on a seperate thread currently.
 
 =Advanced Usage:=
