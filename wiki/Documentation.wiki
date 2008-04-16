@@ -3,7 +3,8 @@
 =API Reference=
 ==Class ObjectManager==
   * register_object(instance, name[, groupname])
-asdf
+    Registers a listener with the manager, subscribing to necessary message types
+    groupname is optional.  Use groupname is you want to put the instance into a specific group besides the main group.
   * add_group(self, name, max_tick_time=None, interval=.03, minimum_sleep=.001)
 
 =Advanced Usage:=
