@@ -80,6 +80,8 @@ class NetworkManager(system.ObjectManager):
         if packet_class.packet_type <= 100:
             raise PacketTypeError('Packet_type must be greater than 100.  Had "%s"' % packet_class.packet_type)
         self.packet_types[packet_class.packet_type] = packet_class
+    def add_process_group(self, name):
+        pass
         
 class PacketReceiver(system.MessageReceiver):
     @property

@@ -23,6 +23,9 @@ class Transport(object):
     def packet_type_info(self, packet_type_id):
         '''returns information about the packet type'''
         pass
+    
+class IPCTransport(Transport):
+    pass
 
 class RakNetTransport(Transport):
     def __init__(self):
