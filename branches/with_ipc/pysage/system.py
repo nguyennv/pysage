@@ -90,18 +90,14 @@ class ObjectManager(messaging.MessageManager):
                 return False
         else:
             return False
-    def tick(self, evt=None, group=messaging.PySageInternalMainGroup, maxTime=None, **kws):
+    def tick(self, evt=None, **kws):
         '''calls update on all objects before message manager ticks'''
         # process all messages first
-        ret = messaging.MessageManager.tick(self, maxTime=maxTime, group=group, **kws)
+        ret = MessageManager.tick(self, **kws)
         # then update all the game objects
-        if group:
-            objs = list(self.object_group_map.get(group, set()))
-        else:
-            objs = self.objectIDMap.values()
+        objs = self.objectIDMap.values()
         objs.sort(lambda x,y: y._SYNC_PRIORITY - x._SYNC_PRIORITY)
         map(lambda x: x.update(evt), objs)
         return ret
-
 
 
