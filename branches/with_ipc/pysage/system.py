@@ -93,7 +93,7 @@ class ObjectManager(messaging.MessageManager):
     def tick(self, evt=None, **kws):
         '''calls update on all objects before message manager ticks'''
         # process all messages first
-        ret = MessageManager.tick(self, **kws)
+        ret = messaging.MessageManager.tick(self, **kws)
         # then update all the game objects
         objs = self.objectIDMap.values()
         objs.sort(lambda x,y: y._SYNC_PRIORITY - x._SYNC_PRIORITY)

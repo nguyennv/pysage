@@ -27,6 +27,10 @@ import struct
 import system
 import transport
 import logging
+import util
+import time
+import processing
+import processing.connection
 
 class PacketError(Exception):
     pass
@@ -34,9 +38,27 @@ class PacketError(Exception):
 class PacketTypeError(Exception):
     pass
 
+class GroupAlreadyExists(Exception):
+    pass
+
+class GroupDoesNotExist(Exception):
+    pass
+
+def _subprocess_main(name, max_tick_time, interval, server_addr, _should_quit):
+    '''interval is in milliseconds of how long to sleep before another tick'''
+    # creating a client mode manager
+    manager = NetworkManager.get_singleton(server_addr, _should_quit)
+    while not manager._should_quit:
+        start = util.get_time()
+        manager.tick(maxTime=max_tick_time)
+        # we want to sleep the different between the time it took to process and the interval desired
+        _time_to_sleep = interval - (util.get_time() - start)
+        time.sleep(_time_to_sleep)
+    return False
+
 class NetworkManager(system.ObjectManager):
     '''extends objectmanager to provide network functionality'''
-    def init(self):
+    def init(self, server_addr=None, _should_quit=None):
         system.ObjectManager.init(self)
         # self.gid = network_id.next()
         self.gid = 0
@@ -46,6 +68,20 @@ class NetworkManager(system.ObjectManager):
             self.transport = transport.Transport()
         self.clients = {}
         self.packet_types = {}
+        # using either Domain Socket (Unix) or Named Pipe (windows) as means
+        # for IPC
+        self.groups = {}
+        self.is_main_process = None
+        if not server_addr:
+            # starting server mode
+            self._connection = processing.connection.Listener()
+            self.is_main_process = True
+            self._should_quit = processing.Value('B', 0)
+        else:
+            # starting client mode
+            self._connection = processing.connection.Client(server_addr)
+            self.is_main_process = False
+            self._should_quit = _should_quit
     def start_server(self, port):
         def connection_handler(client_address):
             logging.debug('connected to client: %s' % client_address)
@@ -80,8 +116,20 @@ class NetworkManager(system.ObjectManager):
         if packet_class.packet_type <= 100:
             raise PacketTypeError('Packet_type must be greater than 100.  Had "%s"' % packet_class.packet_type)
         self.packet_types[packet_class.packet_type] = packet_class
-    def add_process_group(self, name):
-        pass
+    def add_process_group(self, name, max_tick_time=None, interval=.03):
+        # make sure we have a str
+        g = str(name)
+        if self.groups.has_key(g):
+            raise GroupAlreadyExists('Group name "%s" already exists.' % g) 
+        server_addr = self._connection.address
+        self.groups[g] = processing.Process(target=_subprocess_main, args=(name, max_tick_time, interval, server_addr, self._should_quit))
+        self.groups[g].start()
+    def shutdown_children(self):
+        '''shuts down all children processes'''
+        if self.is_main_process:
+            # if we are the server manager, take care to shut down all children
+            for p in self.groups.values():
+                p.join()
         
 class PacketReceiver(system.MessageReceiver):
     @property
