@@ -61,7 +61,7 @@ def _subprocess_main(name, max_tick_time, interval, server_addr, _should_quit):
     '''interval is in milliseconds of how long to sleep before another tick'''
     # creating a client mode manager
     manager = NetworkManager.get_singleton()
-    manager._child_process_init(server_addr, _should_quit)
+    manager._ipc_connect(server_addr, _should_quit)
     while not manager._should_quit.value:
         start = util.get_time()
         manager.tick(maxTime=max_tick_time)
@@ -87,16 +87,16 @@ class NetworkManager(system.ObjectManager):
         self.groups = {}
         self.is_main_process = None
         self.ipc_transport = transport.IPCTransport()
-    def _main_process_init(self):
+    def _ipc_listen(self):
         # starting server mode
         self.is_main_process = True
         self.ipc_transport.listen()
-    def _child_process_init(self, server_addr, _should_quit):
+    def _ipc_connect(self, server_addr, _should_quit):
         # starting client mode
         self.is_main_process = False
         self.ipc_transport.connect(server_addr)
         self._should_quit = _should_quit
-    def start_server(self, port):
+    def listen_network(self, port):
         def connection_handler(client_address):
             logging.debug('connected to client: %s' % client_address)
         self.transport.listen(port, connection_handler)
@@ -131,8 +131,9 @@ class NetworkManager(system.ObjectManager):
             raise PacketTypeError('Packet_type must be greater than 100.  Had "%s"' % packet_class.packet_type)
         self.packet_types[packet_class.packet_type] = packet_class
     def add_process_group(self, name, max_tick_time=None, interval=.03):
+        '''adds a process group to the pool'''
         if self.is_main_process == None:
-            self._main_process_init()
+            self._ipc_listen()
         # make sure we have a str
         g = str(name)
         if self.groups.has_key(g):
@@ -142,13 +143,19 @@ class NetworkManager(system.ObjectManager):
         switch = processing.Value('B', 0)
         self.groups[g] = (processing.Process(target=_subprocess_main, args=(name, max_tick_time, interval, server_addr, switch)), switch)
         self.groups[g][0].start()
-    def shutdown_children(self):
+    def remove_process_group(self, name):
+        '''removes a process group from the pool'''
+        p, switch = self.groups[name]
+        switch.value = 1
+        p.join()
+        del self.groups[name]
+        return self
+    def clear_process_group(self):
         '''shuts down all children processes'''
         if self.is_main_process:
             # if we are the server manager, take care to shut down all children
-            for p, switch in self.groups.values():
-                switch.value = 1
-                p.join()
+            for name in self.groups.keys():
+                self.remove_process_group(name)
         
 class PacketReceiver(system.MessageReceiver):
     @property
