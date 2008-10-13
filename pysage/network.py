@@ -57,6 +57,9 @@ class GroupAlreadyExists(Exception):
 class GroupDoesNotExist(Exception):
     pass
 
+class CreateGroupError(Exception):
+    pass
+
 def _subprocess_main(name, max_tick_time, interval, server_addr, _should_quit):
     '''interval is in milliseconds of how long to sleep before another tick'''
     # creating a client mode manager
@@ -96,7 +99,7 @@ class NetworkManager(system.ObjectManager):
         self.is_main_process = False
         self.ipc_transport.connect(server_addr)
         self._should_quit = _should_quit
-    def listen_network(self, port):
+    def listen(self, port):
         def connection_handler(client_address):
             logging.debug('connected to client: %s' % client_address)
         self.transport.listen(port, connection_handler)
@@ -141,11 +144,13 @@ class NetworkManager(system.ObjectManager):
         server_addr = self.ipc_transport.address
         # shared should quit switch
         switch = processing.Value('B', 0)
-        self.groups[g] = (processing.Process(target=_subprocess_main, args=(name, max_tick_time, interval, server_addr, switch)), switch)
-        self.groups[g][0].start()
+        p = processing.Process(target=_subprocess_main, args=(name, max_tick_time, interval, server_addr, switch))
+        p.start()
+        t = self.ipc_transport.accept()
+        self.groups[g] = (p, t, switch)
     def remove_process_group(self, name):
         '''removes a process group from the pool'''
-        p, switch = self.groups[name]
+        p, t, switch = self.groups[name]
         switch.value = 1
         p.join()
         del self.groups[name]
