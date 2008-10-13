@@ -6,6 +6,21 @@ except ImportError:
 else:
     RAKNET_AVAILABLE = True
 
+connection = None
+
+try:
+    import processing.connection as connection
+except ImportError:
+    pass
+
+try:
+    import multiprocessing.connection as connection
+except ImportError:
+    pass
+
+if not connection:
+    raise Exception('pysage requires the "processing.connection" module')
+
 class Transport(object):
     '''an interface that all transports must implement'''
     def connect(self, host, port):
@@ -23,9 +38,15 @@ class Transport(object):
     def packet_type_info(self, packet_type_id):
         '''returns information about the packet type'''
         pass
+    @property
+    def address(self):
+        pass
     
 class IPCTransport(Transport):
-    pass
+    def listen(self):
+        pass
+    def connect(self, address):
+        pass
 
 class RakNetTransport(Transport):
     def __init__(self):

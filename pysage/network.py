@@ -31,22 +31,19 @@ import util
 import time
 
 processing = None
-connection = None
 
 try:
     import processing as processing
-    import processing.connection as connection
 except ImportError:
     pass
 
 try:
     import multiprocessing as processing
-    import multiprocessing.connection as connection
 except ImportError:
     pass
 
-if not processing or not connection:
-    raise Exception('pysage requires the processing module')
+if not processing:
+    raise Exception('pysage requires the "processing" module')
 
 class PacketError(Exception):
     pass
@@ -89,15 +86,15 @@ class NetworkManager(system.ObjectManager):
         # for IPC
         self.groups = {}
         self.is_main_process = None
+        self.ipc_transport = transport.IPCTransport()
     def _main_process_init(self):
         # starting server mode
         self.is_main_process = True
-        self._connection = connection.Listener()
-        self._should_quit = processing.Value('B', 0)
+        self.ipc_transport.listen()
     def _child_process_init(self, server_addr, _should_quit):
         # starting client mode
         self.is_main_process = False
-        self._connection = connection.Client(server_addr)
+        self.ipc_transport.connect(server_addr)
         self._should_quit = _should_quit
     def start_server(self, port):
         def connection_handler(client_address):
@@ -140,15 +137,17 @@ class NetworkManager(system.ObjectManager):
         g = str(name)
         if self.groups.has_key(g):
             raise GroupAlreadyExists('Group name "%s" already exists.' % g) 
-        server_addr = self._connection.address
-        self.groups[g] = processing.Process(target=_subprocess_main, args=(name, max_tick_time, interval, server_addr, self._should_quit))
-        self.groups[g].start()
+        server_addr = self.ipc_transport.address
+        # shared should quit switch
+        switch = processing.Value('B', 0)
+        self.groups[g] = (processing.Process(target=_subprocess_main, args=(name, max_tick_time, interval, server_addr, switch)), switch)
+        self.groups[g][0].start()
     def shutdown_children(self):
         '''shuts down all children processes'''
-        self._should_quit.value = 1
         if self.is_main_process:
             # if we are the server manager, take care to shut down all children
-            for p in self.groups.values():
+            for p, switch in self.groups.values():
+                switch.value = 1
                 p.join()
         
 class PacketReceiver(system.MessageReceiver):
