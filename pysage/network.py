@@ -29,8 +29,24 @@ import transport
 import logging
 import util
 import time
-import processing
-import processing.connection
+
+processing = None
+connection = None
+
+try:
+    import processing as processing
+    import processing.connection as connection
+except ImportError:
+    pass
+
+try:
+    import multiprocessing as processing
+    import multiprocessing.connection as connection
+except ImportError:
+    pass
+
+if not processing or not connection:
+    raise Exception('pysage requires the processing module')
 
 class PacketError(Exception):
     pass
@@ -76,12 +92,12 @@ class NetworkManager(system.ObjectManager):
     def _main_process_init(self):
         # starting server mode
         self.is_main_process = True
-        self._connection = processing.connection.Listener()
+        self._connection = connection.Listener()
         self._should_quit = processing.Value('B', 0)
     def _child_process_init(self, server_addr, _should_quit):
         # starting client mode
         self.is_main_process = False
-        self._connection = processing.connection.Client(server_addr)
+        self._connection = connection.Client(server_addr)
         self._should_quit = _should_quit
     def start_server(self, port):
         def connection_handler(client_address):
