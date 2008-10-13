@@ -43,10 +43,15 @@ class Transport(object):
         pass
     
 class IPCTransport(Transport):
+    def __init__(self):
+        self._connection = None
     def listen(self):
-        pass
+        self._connection = connection.Listener()
     def connect(self, address):
-        pass
+        self._connection = connection.Client(address)
+    @property
+    def address(self):
+        return self._connection.address
 
 class RakNetTransport(Transport):
     def __init__(self):

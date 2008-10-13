@@ -11,7 +11,7 @@ class TestGroupsProcess(unittest.TestCase):
         pass
     def test_setgroups(self):
         nmanager.add_process_group('resource_loading')
-        nmanager.shutdown_children()
+        nmanager.clear_process_group()
         nmanager.reset()
     def test_shutdown(self):
         pass
