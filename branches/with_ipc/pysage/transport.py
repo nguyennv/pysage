@@ -41,10 +41,10 @@ class Transport(object):
     @property
     def address(self):
         pass
-    
+
 class IPCTransport(Transport):
-    def __init__(self):
-        self._connection = None
+    def __init__(self, conn=None):
+        self._connection = conn
     def listen(self):
         self._connection = connection.Listener()
     def connect(self, address):
@@ -52,6 +52,8 @@ class IPCTransport(Transport):
     @property
     def address(self):
         return self._connection.address
+    def accept(self):
+        return self._connection.accept()
 
 class RakNetTransport(Transport):
     def __init__(self):
