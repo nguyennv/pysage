@@ -48,15 +48,15 @@ class ObjectManager(messaging.MessageManager):
         '''
         obj = self.objectIDMap[id]
         for recr in self.messageReceiverMap[messaging.WildCardMessageType]:
-            recr.handleMessage(msg)
-        return obj.handleMessage(msg)
+            recr.handle_message(msg)
+        return obj.handle_message(msg)
     def queue_message_to_object(self, id, msg):
         msg.receiverID = id
         self.queue_message(msg)
         return True
     @subscription_lock
-    def register_object(self, obj, name=None, group=''):
-        messaging.MessageManager.registerReceiver(self, obj, group)
+    def register_object(self, obj, name=None):
+        messaging.MessageManager.registerReceiver(self, obj)
         self.objectIDMap[obj.gid] = obj
         if name:
             self.objectNameMap[name] = obj
@@ -89,7 +89,8 @@ class ObjectManager(messaging.MessageManager):
             else:
                 return False
         else:
-            return False
+            # if receiverID isn't specified, whoever registers can handle this message
+            return True
     def tick(self, evt=None, **kws):
         '''calls update on all objects before message manager ticks'''
         # process all messages first

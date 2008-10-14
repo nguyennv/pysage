@@ -28,7 +28,7 @@ class MessageReceiver(object):
         # default update priority is 0
         # determines which object is synced first during update
         self._SYNC_PRIORITY = 0       
-    def handleMessage(self, msg):
+    def handle_message(self, msg):
         '''handles a message received
             returns: True if a message is consumed
         ''' 
@@ -149,13 +149,13 @@ class MessageManager(util.ThreadLocalSingleton):
             msg = self.processingQueue.popleft()
             # for receivers that handle all messages let them handle this
             for r in self.messageReceiverMap[WildCardMessageType]:
-                r.handleMessage(msg)
+                r.handle_message(msg)
             # now pass msg to message receivers that subscribed to this message type
             for r in self.messageReceiverMap.get(msg.messageType, []):
                 if not self.designated_to_handle(r, msg):
                     continue
                 # finish this message if it was handled or had designated receiver
-                if r.handleMessage(msg) or msg.receiverID:
+                if r.handle_message(msg) or msg.receiverID:
                     break
             if maxTime and time.time() - startTime > maxTime:
                 break
@@ -222,11 +222,11 @@ class MessageManager(util.ThreadLocalSingleton):
         if not self.validateType(msg.messageType):
             return False
         # for receivers that register to all events, send the message to them
-        map(lambda x: x.handleMessage(msg), self.messageReceiverMap[WildCardMessageType])
+        map(lambda x: x.handle_message(msg), self.messageReceiverMap[WildCardMessageType])
         # Now loop thru the receivers that actually subscribed to this particular message type
         processed = False
         for r in self.messageReceiverMap.get(msg.messageType, []):
-            if r.handleMessage(msg):
+            if r.handle_message(msg):
                 processed = True
         return processed
     def addReceiver(self, receiver, msgType):

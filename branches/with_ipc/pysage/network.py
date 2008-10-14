@@ -25,6 +25,7 @@ THE SOFTWARE.
 # network.py
 import struct
 import system
+import messaging
 import transport
 import logging
 import util
@@ -62,11 +63,13 @@ class GroupDoesNotExist(Exception):
 class CreateGroupError(Exception):
     pass
 
-def _subprocess_main(name, max_tick_time, interval, server_addr, _should_quit):
+def _subprocess_main(name, default_actor_class, max_tick_time, interval, server_addr, _should_quit):
     '''interval is in milliseconds of how long to sleep before another tick'''
     # creating a client mode manager
     manager = NetworkManager.get_singleton()
     manager._ipc_connect(server_addr, _should_quit)
+    if default_actor_class:
+        manager.register_object(default_actor_class())
     while not manager._should_quit.value:
         start = util.get_time()
         manager.tick(maxTime=max_tick_time)
@@ -139,7 +142,7 @@ class NetworkManager(system.ObjectManager):
         if packet_class.packet_type <= 100:
             raise PacketTypeError('Packet_type must be greater than 100.  Had "%s"' % packet_class.packet_type)
         self.packet_types[packet_class.packet_type] = packet_class
-    def add_process_group(self, name, max_tick_time=None, interval=.03):
+    def add_process_group(self, name, default_actor_class=None, max_tick_time=None, interval=.03):
         '''adds a process group to the pool'''
         if self.is_main_process == None:
             self._ipc_listen()
@@ -150,7 +153,8 @@ class NetworkManager(system.ObjectManager):
         server_addr = self.ipc_transport.address
         # shared should quit switch
         switch = processing.Value('B', 0)
-        p = processing.Process(target=_subprocess_main, args=(name, max_tick_time, interval, server_addr, switch))
+        actor_class = default_actor_class or DefaultActor
+        p = processing.Process(target=_subprocess_main, args=(name, actor_class, max_tick_time, interval, server_addr, switch))
         p.start()
         _clientid = self.ipc_transport.accept()
         self.groups[g] = (p, _clientid, switch)
@@ -167,21 +171,27 @@ class NetworkManager(system.ObjectManager):
             # if we are the server manager, take care to shut down all children
             for name in self.groups.keys():
                 self.remove_process_group(name)
+                
+class AutoPacketRegister(type):
+    def __init__(cls, name, bases, dct):
+        super(AutoPacketRegister, cls).__init__(name, bases, dct)
+        NetworkManager.get_singleton().register_packet_type(cls)
         
 class PacketReceiver(system.MessageReceiver):
     @property
     def gid(self):
         '''return a globally unique id that is good cross processes'''
         return (NetworkManager.get_singleton().gid, id(self))
-
-class AutoRegister(type):
-    def __init__(cls, name, bases, dct):
-        super(AutoRegister, cls).__init__(name, bases, dct)
-        NetworkManager.get_singleton().register_packet_type(cls)
+    
+class DefaultActor(PacketReceiver):
+    subscriptions = [messaging.WildCardMessageType]
+    def handle_message(self, msg):
+        processing.get_logger().info('Default actor received message "%s"' % msg)
+        return False
 
 class Packet(system.Message):
     '''a packet is a network message'''
-    __metaclass__ = AutoRegister
+    __metaclass__ = AutoPacketRegister
     types = []
     packet_type = None
     def to_string(self):
