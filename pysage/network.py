@@ -45,7 +45,7 @@ except ImportError:
     pass
 
 if not processing:
-    raise Exception('pysage requires the "processing" module')
+    raise Exception('pysage requires either python2.6 or the "processing" module')
 
 class PacketError(Exception):
     pass
@@ -112,6 +112,10 @@ class NetworkManager(system.ObjectManager):
     def send_message(self, msg, clientid):
         self.transport.send(msg.to_string(), id=self.clients[clientid])
         return self
+    def queue_message_to_group(self, msg, group):
+        '''message is serialized and sent to the group (process) specified'''
+        p, _clientid, switch = self.groups['group']
+        self.ipc_transport.send(msg.to_string(), _clientid)
     def broadcast_message(self, msg):
         self.transport.send(msg.to_string(), broadcast=True)
         return self
@@ -148,11 +152,11 @@ class NetworkManager(system.ObjectManager):
         switch = processing.Value('B', 0)
         p = processing.Process(target=_subprocess_main, args=(name, max_tick_time, interval, server_addr, switch))
         p.start()
-        t = self.ipc_transport.accept()
-        self.groups[g] = (p, t, switch)
+        _clientid = self.ipc_transport.accept()
+        self.groups[g] = (p, _clientid, switch)
     def remove_process_group(self, name):
         '''removes a process group from the pool'''
-        p, t, switch = self.groups[name]
+        p, _clientid, switch = self.groups[name]
         switch.value = 1
         p.join()
         del self.groups[name]
