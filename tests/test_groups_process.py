@@ -5,6 +5,11 @@ import unittest
 
 nmanager = NetworkManager.get_singleton()
 
+class TestMessage(Packet):
+    properties = ['amount']
+    types = ['i']
+    packet_type = 101
+
 class TestGroupsProcess(unittest.TestCase):
     def setUp(self):
         pass
