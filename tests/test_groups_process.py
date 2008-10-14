@@ -55,7 +55,7 @@ class TestGroupsProcess(unittest.TestCase):
         assert len(nmanager.groups) == 1
         assert len(active_children()) == 1
     def test_add_group_multi(self):
-        nmanager.add_process_group('a')
+        nmanager.add_process_group('a', )
         nmanager.add_process_group('b')
         assert len(nmanager.groups) == 2
         assert len(active_children()) == 2
@@ -74,6 +74,5 @@ class TestGroupsProcess(unittest.TestCase):
         assert len(nmanager.groups) == 1
         assert len(active_children()) == 1
     def test_sending_message(self):
-        pass
-
+        nmanager.add_process_group('a', PingReceiver)
 
