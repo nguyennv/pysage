@@ -39,5 +39,7 @@ class TestGroupsProcess(unittest.TestCase):
 
         assert len(nmanager.groups) == 1
         assert len(multiprocessing.active_children()) == 1
+    def test_sending_message(self):
+        pass
 
 
