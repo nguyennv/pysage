@@ -19,7 +19,7 @@ except ImportError:
     pass
 
 if not connection:
-    raise Exception('pysage requires the "processing.connection" module')
+    raise Exception('pysage requires either python2.6 or the "processing" module')
 
 class Transport(object):
     '''an interface that all transports must implement'''
@@ -40,11 +40,13 @@ class Transport(object):
         pass
     @property
     def address(self):
+        '''returns the address this transport is bound to'''
         pass
 
 class IPCTransport(Transport):
-    def __init__(self, conn=None):
-        self._connection = conn
+    def __init__(self):
+        self._connection = None
+        self.peers = {}
     def listen(self):
         self._connection = connection.Listener()
     def connect(self, address):
@@ -53,7 +55,12 @@ class IPCTransport(Transport):
     def address(self):
         return self._connection.address
     def accept(self):
-        return self._connection.accept()
+        c = self._connection.accept()
+        _clientid = self._connection.last_accepted
+        self.peers[_clientid] = c
+        return _clientid
+    def send(self, data, id=-1, broadcast=False):
+        self.peers[id].send_bytes(data)
 
 class RakNetTransport(Transport):
     def __init__(self):
