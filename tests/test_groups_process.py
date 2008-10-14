@@ -1,5 +1,6 @@
 # test_groups_process.py
 from pysage.network import *
+import time
 
 processing = None
 
@@ -37,12 +38,18 @@ class PongMessage(Packet):
 class PingReceiver(PacketReceiver):
     subscriptions = ['PingMessage']
     def handle_PingMessage(self, msg):
-        pass
+        nmanager = NetworkManager.get_singleton()
+        nmanager.queue_message_to_group(PongMessage(secret=1234), nmanager.MAIN_GROUP_NAME)
+        return True
     
 class PongReceiver(PacketReceiver):
     subscriptions = ['PongMessage']
+    def __init__(self):
+        PacketReceiver.__init__(self)
+        self.received_message = False
     def handle_PongMessage(self, msg):
-        pass
+        self.received_message = True
+        return True
 
 class TestGroupsProcess(unittest.TestCase):
     def setUp(self):
@@ -74,5 +81,12 @@ class TestGroupsProcess(unittest.TestCase):
         assert len(nmanager.groups) == 1
         assert len(active_children()) == 1
     def test_sending_message(self):
+        nmanager.register_object(PongReceiver(), 'pong_receiver')
+        assert not nmanager.find('pong_receiver').received_message
         nmanager.add_process_group('a', PingReceiver)
+        nmanager.queue_message_to_group(PingMessage(secret=1234), 'a')
+        time.sleep(1)
+        nmanager.tick()
+        assert nmanager.find('pong_receiver').received_message
+        
 
