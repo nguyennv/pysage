@@ -80,6 +80,7 @@ def _subprocess_main(name, default_actor_class, max_tick_time, interval, server_
 
 class NetworkManager(system.ObjectManager):
     '''extends objectmanager to provide network functionality'''
+    MAIN_GROUP_NAME = '__MAIN_GROUP__'
     def init(self):
         system.ObjectManager.init(self)
         # self.gid = network_id.next()
@@ -104,6 +105,7 @@ class NetworkManager(system.ObjectManager):
         self.is_main_process = False
         self.ipc_transport.connect(server_addr)
         self._should_quit = _should_quit
+        self.groups[self.MAIN_GROUP_NAME] = (None,server_addr,None)
     def listen(self, port):
         def connection_handler(client_address):
             logging.debug('connected to client: %s' % client_address)
@@ -117,13 +119,14 @@ class NetworkManager(system.ObjectManager):
         return self
     def queue_message_to_group(self, msg, group):
         '''message is serialized and sent to the group (process) specified'''
-        p, _clientid, switch = self.groups['group']
+        p, _clientid, switch = self.groups[group]
         self.ipc_transport.send(msg.to_string(), _clientid)
     def broadcast_message(self, msg):
         self.transport.send(msg.to_string(), broadcast=True)
         return self
     def tick(self, *args, **kws):
-        '''first poll network for packets, then process messages, then object updates'''
+        '''first poll process for packets, then network messages, then object updates'''
+        self.ipc_transport.poll(self.packet_handler)
         self.transport.poll(self.packet_handler)
         return system.ObjectManager.tick(self, *args, **kws)
     def packet_handler(self, packet):
@@ -132,7 +135,7 @@ class NetworkManager(system.ObjectManager):
         if packetid < 100:
             logging.warning('internal packet unhandled: "%s"' % self.transport.packet_type_info(packetid))
             return self
-        
+        p = self.packet_types[packetid]().from_string(packet.data)
         self.queue_message(self.packet_types[packetid]().from_string(packet.data)) 
         return self
     def register_packet_type(self, packet_class):
