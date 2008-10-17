@@ -23,6 +23,7 @@ class Singleton(object):
         pass
     
 class ThreadLocalSingleton(object):
+    '''not fork safe'''
     def __new__(cls, *args, **kwds):
         pool = cls.__dict__.get("__singleton_pool__")
         if not pool:
@@ -44,7 +45,7 @@ class ThreadLocalSingleton(object):
         return pool.__singleton__
     def init(self, *args, **kwds):
         pass
-    
+
 if sys.platform.startswith("win"):
     get_time = time.clock
 else:
