@@ -57,6 +57,18 @@ class TestSingleton(unittest.TestCase):
         
         assert not queue.empty()
         assert not queue.get() == id(TestClass.get_singleton())
+    def test_singleton_process_before_fork(self):
+        '''tests that all processes have their own manager, --> unnecessary'''
+        s = TestClass.get_singleton()
+        queue = processing.Queue()
+        assert queue.empty()
+        
+        p = processing.Process(target=proc_change_id, args=(queue,))
+        p.start()
+        p.join()
+        
+        assert not queue.empty()
+        assert not queue.get() == id(TestClass.get_singleton())
         
         
         
