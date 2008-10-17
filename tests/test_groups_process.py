@@ -46,9 +46,9 @@ class PongReceiver(PacketReceiver):
     subscriptions = ['PongMessage']
     def __init__(self):
         PacketReceiver.__init__(self)
-        self.received_message = False
+        self.received_secret = None
     def handle_PongMessage(self, msg):
-        self.received_message = True
+        self.received_secret = msg.get_property('secret')
         return True
 
 class TestGroupsProcess(unittest.TestCase):
@@ -82,11 +82,11 @@ class TestGroupsProcess(unittest.TestCase):
         assert len(active_children()) == 1
     def test_sending_message(self):
         nmanager.register_object(PongReceiver(), 'pong_receiver')
-        assert not nmanager.find('pong_receiver').received_message
+        assert not nmanager.find('pong_receiver').received_secret
         nmanager.add_process_group('a', PingReceiver)
         nmanager.queue_message_to_group(PingMessage(secret=1234), 'a')
         time.sleep(1)
         nmanager.tick()
-        assert nmanager.find('pong_receiver').received_message
+        assert nmanager.find('pong_receiver').received_secret == 1234
         
 
