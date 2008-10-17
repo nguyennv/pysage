@@ -29,18 +29,22 @@ def proc_change_id(q):
     q.put(id(TestClass.get_singleton()))
 
 class TestSingleton(unittest.TestCase):
+    def tearDown(self):
+        TestClass._clear_singleton()
     def test_same_thread(self):
         return return_instance_id() == return_instance_id()
     def test_singleton_threadlocal(self):
         '''tests that each thread has its own manager'''
         threads = []
         def change_id():
+            print 'new thread "%s": %s' % (thread.get_ident(), id(TestClass.get_singleton()))
             threads.append(id(TestClass.get_singleton()))
         
         assert not threads
         thread.start_new_thread(change_id, ())
+        print 'existing thread "%s": %s' % (thread.get_ident(), id(TestClass.get_singleton()))
         time.sleep(1)
-        assert threads[0]
+        print 'list contains: %s' % threads[0]
         assert not threads[0] == id(TestClass.get_singleton())
     def test_singleton_process(self):
         '''tests that all processes have their own manager, --> unnecessary'''

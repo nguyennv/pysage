@@ -45,6 +45,9 @@ class ThreadLocalSingleton(object):
         return pool.__singleton__
     def init(self, *args, **kwds):
         pass
+    @classmethod
+    def _clear_singleton(cls):
+        cls.__singleton_pool__ = None
 
 if sys.platform.startswith("win"):
     get_time = time.clock
