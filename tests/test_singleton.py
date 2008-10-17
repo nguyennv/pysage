@@ -2,8 +2,22 @@
 from pysage.util import *
 import unittest
 import thread
-import processing
 import time
+
+processing = None
+
+try:
+    import multiprocessing as processing
+except ImportError:
+    pass
+
+try:
+    import processing as processing
+except ImportError:
+    pass
+
+if not processing:
+    raise Exception('pysage requires either python2.6 or the "processing" module')
 
 class TestClass(ThreadLocalSingleton):
     pass
