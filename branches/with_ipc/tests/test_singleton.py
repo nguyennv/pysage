@@ -37,12 +37,15 @@ class TestSingleton(unittest.TestCase):
         '''tests that each thread has its own manager'''
         threads = []
         def change_id():
-            print 'new thread "%s": %s' % (thread.get_ident(), id(TestClass.get_singleton()))
-            threads.append(id(TestClass.get_singleton()))
+            sid = id(TestClass.get_singleton())
+            print 'new thread "%s": %s' % (thread.get_ident(), sid)
+            threads.append(sid)
         
         assert not threads
         thread.start_new_thread(change_id, ())
-        print 'existing thread "%s": %s' % (thread.get_ident(), id(TestClass.get_singleton()))
+        
+        nid = id(TestClass.get_singleton())
+        print 'existing thread "%s": %s' % (thread.get_ident(), nid)
         time.sleep(1)
         print 'list contains: %s' % threads[0]
         assert not threads[0] == id(TestClass.get_singleton())
