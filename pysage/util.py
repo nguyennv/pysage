@@ -21,7 +21,7 @@ class Singleton(object):
 class ProcessLocalSingleton(object):
     '''fork safe'''
     def __new__(cls, *args, **kwds):
-        return cls.get_singleton(*args, **kws)
+        return cls.get_singleton(*args, **kwds)
     @classmethod
     def get_singleton(cls, *args, **kwds):
         it = cls.__dict__.get("__it__")
@@ -29,7 +29,7 @@ class ProcessLocalSingleton(object):
             return it[1]
         cls.__it__ = it = (os.getpid(), object.__new__(cls))
         it[1].init(*args, **kwds)
-        return it
+        return it[1]
     def init(self, *args, **kwds):
         pass
     @classmethod
