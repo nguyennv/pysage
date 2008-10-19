@@ -1,22 +1,8 @@
 # system.py
 from __future__ import with_statement
-import threading
 import messaging
 
-# use this lock because (un)registering requires manipulating a list that's stored
-# in a dictionary, concurrent manipulation by multiple threads is unsafe
-# could result in loss of registration, etc...
-# this lock could in the future be developed to cover a tight part of the section that requires
-# mutual exclusion, righ tnow it's a decorator on the entire method
-def subscription_lock(func):
-    '''decorator that wraps a lock around a member method'''
-    def deco(self, *args, **kws):
-        with self._subscription_lock:
-            return func(self, *args, **kws)
-    return deco
-
 MessageReceiver = messaging.MessageReceiver
-
 Message = messaging.Message
 
 class ObjectManager(messaging.MessageManager):
@@ -26,7 +12,6 @@ class ObjectManager(messaging.MessageManager):
         messaging.MessageManager.init(self)
         self.objectIDMap = {}
         self.objectNameMap = {}
-        self._subscription_lock = threading.RLock()
     def find(self, name):
         '''returns an object by its name, None if not found'''
         return self.get_object_by_name(name)
@@ -54,14 +39,12 @@ class ObjectManager(messaging.MessageManager):
         msg.receiverID = id
         self.queue_message(msg)
         return True
-    @subscription_lock
     def register_object(self, obj, name=None):
         messaging.MessageManager.registerReceiver(self, obj)
         self.objectIDMap[obj.gid] = obj
         if name:
             self.objectNameMap[name] = obj
         return obj
-    @subscription_lock
     def unregister_object(self, obj):
         messaging.MessageManager.unregisterReceiver(self, obj)
         del self.objectIDMap[obj.gid]
