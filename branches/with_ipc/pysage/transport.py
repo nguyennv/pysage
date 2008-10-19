@@ -15,6 +15,8 @@ except ImportError:
 else:
     def send_bytes(conn, data):
         return conn.sendbytes(data)
+    def recv_bytes(conn):
+        return conn.recvbytes()
 
 try:
     import multiprocessing.connection as connection
@@ -23,6 +25,8 @@ except ImportError:
 else:
     def send_bytes(conn, data):
         return conn.send_bytes(data)
+    def recv_bytes(conn):
+        return conn.recv_bytes()
 
 if not connection:
     raise Exception('pysage requires either python2.6 or the "processing" module')
@@ -75,7 +79,7 @@ class IPCTransport(Transport):
     def poll(self, packet_handler):
         for conn in self.peers.values():
             while conn.poll():
-                packet = IPCPacket(conn.recvbytes())
+                packet = IPCPacket(recv_bytes(conn))
                 packet_handler(packet)
 
 class RakNetTransport(Transport):

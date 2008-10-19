@@ -108,7 +108,7 @@ class Message(object):
     def __setstate__(self, d):
         self.__dict__.update(d)
 
-class MessageManager(util.ThreadLocalSingleton):
+class MessageManager(util.ProcessLocalSingleton):
     '''generic message manager singleton class that game object manager inherits from'''
     def init(self):
         self.messageTypes = []
