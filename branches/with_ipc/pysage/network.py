@@ -63,10 +63,13 @@ class GroupDoesNotExist(Exception):
 class CreateGroupError(Exception):
     pass
 
-def _subprocess_main(name, default_actor_class, max_tick_time, interval, server_addr, _should_quit):
+def _subprocess_main(name, default_actor_class, max_tick_time, interval, server_addr, _should_quit, packet_types):
     '''interval is in milliseconds of how long to sleep before another tick'''
     # creating a client mode manager
     manager = NetworkManager.get_singleton()
+    # the new manager may not have all packet types registered, register them here
+    assert not manager.packet_types
+    manager.packet_types = packet_types
     manager._ipc_connect(server_addr, _should_quit)
     if default_actor_class:
         manager.register_object(default_actor_class())
@@ -157,7 +160,7 @@ class NetworkManager(system.ObjectManager):
         # shared should quit switch
         switch = processing.Value('B', 0)
         actor_class = default_actor_class or DefaultActor
-        p = processing.Process(target=_subprocess_main, args=(name, actor_class, max_tick_time, interval, server_addr, switch))
+        p = processing.Process(target=_subprocess_main, args=(name, actor_class, max_tick_time, interval, server_addr, switch, self.packet_types))
         p.start()
         _clientid = self.ipc_transport.accept()
         self.groups[g] = (p, _clientid, switch)
