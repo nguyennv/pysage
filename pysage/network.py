@@ -68,8 +68,12 @@ def _subprocess_main(name, default_actor_class, max_tick_time, interval, server_
     # creating a client mode manager
     manager = NetworkManager.get_singleton()
     # the new manager may not have all packet types registered, register them here
-    assert not manager.packet_types
-    manager.packet_types = packet_types
+    if manager.packet_types:
+        # on windows, packet types will be auto-registered
+        assert set(manager.packet_types) == set(packet_types)
+    else:
+        # on *nix, forking would cause packets NOT be auto-registered
+        manager.packet_types = packet_types
     manager._ipc_connect(server_addr, _should_quit)
     if default_actor_class:
         manager.register_object(default_actor_class())
