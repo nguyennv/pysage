@@ -81,7 +81,7 @@ class TestGroupsProcess(unittest.TestCase):
         assert len(nmanager.groups) == 1
         assert len(active_children()) == 1
     def test_sending_message(self):
-        nmanager.register_object(PongReceiver(), 'pong_receiver')
+        nmanager.register_actor(PongReceiver(), 'pong_receiver')
         assert not nmanager.find('pong_receiver').received_secret
         nmanager.add_process_group('a', PingReceiver)
         nmanager.queue_message_to_group(PingMessage(secret=1234), 'a')

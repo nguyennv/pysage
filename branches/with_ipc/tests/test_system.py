@@ -39,28 +39,28 @@ class TestGameObject(unittest.TestCase):
         
     def test_registerObj(self):
         obj = RealPunk()        
-        mgr.register_object(obj)
-        assert mgr.get_object(obj.gid) == obj
+        mgr.register_actor(obj)
+        assert mgr.get_actor(obj.gid) == obj
     
     def test_unregisterObj(self):
         obj = RealPunk()
-        mgr.register_object(obj)
-        assert mgr.get_object(obj.gid) == obj
-        mgr.unregister_object(obj)
-        assert mgr.get_object(obj.gid) is None
+        mgr.register_actor(obj)
+        assert mgr.get_actor(obj.gid) == obj
+        mgr.unregister_actor(obj)
+        assert mgr.get_actor(obj.gid) is None
         
     def test_trigger_to_object(self):
         obj = RealPunk()
-        mgr.register_object(obj)
+        mgr.register_actor(obj)
         msg = TakeDamage(damageAmount = 3)
-        assert mgr.trigger_to_object(obj.gid, msg)
+        assert mgr.trigger_to_actor(obj.gid, msg)
         assert obj.damage == 3
         
     def test_queueToObject(self):
         obj1 = RealPunk()
         obj2 = RealPunk()
-        mgr.register_object(obj1)
-        mgr.register_object(obj2)
+        mgr.register_actor(obj1)
+        mgr.register_actor(obj2)
         msg = TakeDamage(damageAmount = 3)
         assert mgr.queue_message_to_object(obj1.gid, msg)
         assert obj1.damage == 0
@@ -71,17 +71,17 @@ class TestGameObject(unittest.TestCase):
                                 
     def test_queue_message(self):
         obj = RealPunk()
-        mgr.register_object(obj)
+        mgr.register_actor(obj)
         msg = TakeDamage(damageAmount = 2)
         mgr.queue_message(msg)
         assert obj.damage == 0
         assert mgr.tick(None)
         assert obj.damage == 2
         
-    def test_register_objectWithName(self):
+    def test_register_actorWithName(self):
         obj = Punk()
-        mgr.register_object(obj, 'punk')
-        assert mgr.get_object_by_name('punk') == obj
+        mgr.register_actor(obj, 'punk')
+        assert mgr.get_actor_by_name('punk') == obj
         
     def tearDown(self):
         mgr.reset()
