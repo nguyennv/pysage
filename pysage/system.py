@@ -81,7 +81,7 @@ def _subprocess_main(name, default_actor_class, max_tick_time, interval, server_
     manager._ipc_connect(server_addr, _should_quit)
     logger.info('process "%s" is bound to address: "%s"' % (processing.current_process().pid, manager.ipc_transport._connection.fileno()))
     if default_actor_class:
-        manager.register_object(default_actor_class())
+        manager.register_actor(default_actor_class())
     while not manager._should_quit.value:
         start = util.get_time()
         manager.tick(maxTime=max_tick_time)
@@ -112,15 +112,15 @@ class ActorManager(messaging.MessageManager):
         self.ipc_transport = transport.IPCTransport()
     def find(self, name):
         '''returns an object by its name, None if not found'''
-        return self.get_object_by_name(name)
-    def get_object(self, id):
+        return self.get_actor_by_name(name)
+    def get_actor(self, id):
         return self.objectIDMap.get(id, None)
-    def get_object_by_name(self, name):
+    def get_actor_by_name(self, name):
         return self.objectNameMap.get(name, None)
     @property
-    def objects(self):
+    def actors(self):
         return self.objectIDMap.values()
-    def trigger_to_object(self, id, msg):
+    def trigger_to_actor(self, id, msg):
         '''
         sends a particular game object a message if that game object implements this message type
         
@@ -137,13 +137,13 @@ class ActorManager(messaging.MessageManager):
         msg.receiverID = id
         self.queue_message(msg)
         return True
-    def register_object(self, obj, name=None):
+    def register_actor(self, obj, name=None):
         messaging.MessageManager.registerReceiver(self, obj)
         self.objectIDMap[obj.gid] = obj
         if name:
             self.objectNameMap[name] = obj
         return obj
-    def unregister_object(self, obj):
+    def unregister_actor(self, obj):
         messaging.MessageManager.unregisterReceiver(self, obj)
         del self.objectIDMap[obj.gid]
         
