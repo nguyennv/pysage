@@ -40,6 +40,7 @@ try:
 except ImportError:
     pass
 else:
+    processing.enableLogging(level=logging.INFO)
     logger = processing.getLogger()
 
 try:
@@ -158,6 +159,8 @@ class NetworkManager(system.ObjectManager):
             return
         if packet_class.packet_type <= 100:
             raise PacketTypeError('Packet_type must be greater than 100.  Had "%s"' % packet_class.packet_type)
+        if self.packet_types.has_key(packet_class.packet_type):
+            raise PacketTypeError('Packet_type is already registered with packet "%s"' % self.packet_types[packet_class.packet_type])
         self.packet_types[packet_class.packet_type] = packet_class
     def add_process_group(self, name, default_actor_class=None, max_tick_time=None, interval=.03):
         '''adds a process group to the pool'''

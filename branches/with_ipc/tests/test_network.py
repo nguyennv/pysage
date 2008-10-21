@@ -7,7 +7,7 @@ nmanager = NetworkManager.get_singleton()
 class TestMessage(Packet):
     properties = ['amount']
     types = ['i']
-    packet_type = 101
+    packet_type = 103
     
 class TestReceiver(PacketReceiver):
     pass
@@ -18,7 +18,7 @@ class TestNetwork(unittest.TestCase):
     def test_packing(self):
         p = TestMessage(amount=1)
         print p.to_string()
-        assert p.to_string() == 'e\x00\x00\x00\x01'
+        assert p.to_string() == 'g\x00\x00\x00\x01'
     def test_manager_gid(self):
         assert nmanager.gid == 0
     def test_receiver_gid(self):
