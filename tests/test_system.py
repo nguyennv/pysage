@@ -62,7 +62,7 @@ class TestGameObject(unittest.TestCase):
         mgr.register_actor(obj1)
         mgr.register_actor(obj2)
         msg = TakeDamage(damageAmount = 3)
-        assert mgr.queue_message_to_object(obj1.gid, msg)
+        assert mgr.queue_message_to_actor(obj1.gid, msg)
         assert obj1.damage == 0
         assert obj2.damage == 0
         mgr.tick(None)
