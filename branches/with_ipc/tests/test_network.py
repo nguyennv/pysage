@@ -1,15 +1,15 @@
 # test_network.py
-from pysage.network import Packet, NetworkManager, PacketReceiver
+from pysage.system import Message, ActorManager, Actor
 import unittest
 
-nmanager = NetworkManager.get_singleton()
+nmanager = ActorManager.get_singleton()
 
-class TestMessage(Packet):
+class TestMessage(Message):
     properties = ['amount']
     types = ['i']
     packet_type = 103
     
-class TestReceiver(PacketReceiver):
+class TestReceiver(Actor):
     pass
 
 class TestNetwork(unittest.TestCase):

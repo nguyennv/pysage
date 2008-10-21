@@ -1,5 +1,5 @@
 # test_groups_process.py
-from pysage.network import *
+from pysage.system import *
 import time
 
 processing = None
@@ -23,29 +23,29 @@ if not processing:
 
 import unittest
 
-nmanager = NetworkManager.get_singleton()
+nmanager = ActorManager.get_singleton()
 
-class PingMessage(Packet):
+class PingMessage(Message):
     properties = ['secret']
     types = ['i']
     packet_type = 101
     
-class PongMessage(Packet):
+class PongMessage(Message):
     properties = ['secret']
     types = ['i']
     packet_type = 102
     
-class PingReceiver(PacketReceiver):
+class PingReceiver(Actor):
     subscriptions = ['PingMessage']
     def handle_PingMessage(self, msg):
-        nmanager = NetworkManager.get_singleton()
+        nmanager = ActorManager.get_singleton()
         nmanager.queue_message_to_group(PongMessage(secret=1234), nmanager.MAIN_GROUP_NAME)
         return True
     
-class PongReceiver(PacketReceiver):
+class PongReceiver(Actor):
     subscriptions = ['PongMessage']
     def __init__(self):
-        PacketReceiver.__init__(self)
+        Actor.__init__(self)
         self.received_secret = None
     def handle_PongMessage(self, msg):
         self.received_secret = msg.get_property('secret')
