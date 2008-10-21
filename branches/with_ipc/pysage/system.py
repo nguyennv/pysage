@@ -133,7 +133,7 @@ class ActorManager(messaging.MessageManager):
         for recr in self.messageReceiverMap[messaging.WildCardMessageType]:
             recr.handle_message(msg)
         return obj.handle_message(msg)
-    def queue_message_to_object(self, id, msg):
+    def queue_message_to_actor(self, id, msg):
         msg.receiverID = id
         self.queue_message(msg)
         return True
