@@ -142,7 +142,7 @@ class NetworkManager(system.ObjectManager):
         '''first poll process for packets, then network messages, then object updates'''
         self.ipc_transport.poll(self.packet_handler)
         self.transport.poll(self.packet_handler)
-        logger.info('process "%s" queue length: %s' % (processing.current_process().pid, self.queue_length))
+        logger.debug('process "%s" queue length: %s' % (processing.current_process().pid, self.queue_length))
         return system.ObjectManager.tick(self, *args, **kws)
     def packet_handler(self, packet):
         packetid = ord(packet.data[0])
