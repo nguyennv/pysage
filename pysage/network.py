@@ -39,11 +39,15 @@ try:
     import processing as processing
 except ImportError:
     pass
+else:
+    logger = processing.getLogger()
 
 try:
     import multiprocessing as processing
 except ImportError:
     pass
+else:
+    logger = processing.get_logger()
 
 if not processing:
     raise Exception('pysage requires either python2.6 or the "processing" module')
@@ -75,6 +79,7 @@ def _subprocess_main(name, default_actor_class, max_tick_time, interval, server_
         # on *nix, forking would cause packets NOT be auto-registered
         manager.packet_types = packet_types
     manager._ipc_connect(server_addr, _should_quit)
+    logger.info('process "%s" is bound to address: "%s"' % (processing.current_process().pid, manager.ipc_transport._connection.fileno()))
     if default_actor_class:
         manager.register_object(default_actor_class())
     while not manager._should_quit.value:
@@ -127,6 +132,7 @@ class NetworkManager(system.ObjectManager):
     def queue_message_to_group(self, msg, group):
         '''message is serialized and sent to the group (process) specified'''
         p, _clientid, switch = self.groups[group]
+        logger.info('queuing message "%s" to "%s"' % (msg, self.ipc_transport.peers[_clientid].fileno()))
         self.ipc_transport.send(msg.to_string(), _clientid)
     def broadcast_message(self, msg):
         self.transport.send(msg.to_string(), broadcast=True)
@@ -135,6 +141,7 @@ class NetworkManager(system.ObjectManager):
         '''first poll process for packets, then network messages, then object updates'''
         self.ipc_transport.poll(self.packet_handler)
         self.transport.poll(self.packet_handler)
+        logger.info('process "%s" queue length: %s' % (processing.current_process().pid, self.queue_length))
         return system.ObjectManager.tick(self, *args, **kws)
     def packet_handler(self, packet):
         packetid = ord(packet.data[0])
@@ -164,8 +171,9 @@ class NetworkManager(system.ObjectManager):
         # shared should quit switch
         switch = processing.Value('B', 0)
         actor_class = default_actor_class or DefaultActor
-        p = processing.Process(target=_subprocess_main, args=(name, actor_class, max_tick_time, interval, server_addr, switch, self.packet_types))
+        p = processing.Process(target=_subprocess_main, name=name, args=(name, actor_class, max_tick_time, interval, server_addr, switch, self.packet_types))
         p.start()
+        logger.info('started group "%s" in process "%s"' % (name, p.pid))
         _clientid = self.ipc_transport.accept()
         self.groups[g] = (p, _clientid, switch)
     def remove_process_group(self, name):
@@ -181,6 +189,9 @@ class NetworkManager(system.ObjectManager):
             # if we are the server manager, take care to shut down all children
             for name in self.groups.keys():
                 self.remove_process_group(name)
+    @property
+    def queue_length(self):
+        return len(self.activeQueue)
                 
 class AutoPacketRegister(type):
     def __init__(cls, name, bases, dct):
