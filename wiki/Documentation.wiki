@@ -1,6 +1,8 @@
 #summary how to use pysage
 
-For more API documentation, see [http://code.google.com/p/pysage/wiki/API reference]
+This tutorial is only applicable to version 1.2.2
+
+For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 
 =Tutorial=
 ==Automatic Message Packing/Unpacking==
