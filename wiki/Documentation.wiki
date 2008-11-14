@@ -49,7 +49,7 @@ calling "add_process_group" will internally start a separate process for the spe
 {{{
 # register the consumer in the main group
 mgr.register_actor(Consumer())
-# in our "worker group", register the Work actor
+# in our "worker group", register the Worker actor
 mgr.add_process_group('worker_group', Worker)
 }}}
 
