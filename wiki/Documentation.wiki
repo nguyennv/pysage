@@ -58,12 +58,12 @@ Network messages can automatically pack and unpack themselves for purposes of be
 class SmallMessage(Message):
     properties = ['content']
     types = ['p']
-    packet_type = 102
+    packet_type = 103
 
 class LargeMessage(Message):
     properties = ['account_numbers']
     types = ['ai']
-    packet_type = 103
+    packet_type = 104
 
 }}}
 besides all the format types supported by python's "struct" module, additional ones are supported by pysage:
