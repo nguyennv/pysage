@@ -1,4 +1,5 @@
 #summary how to use pysage
+#labels Featured
 
 For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 
