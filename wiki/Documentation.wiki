@@ -50,7 +50,7 @@ calling "add_process_group" will internally start a separate process for the spe
 # register the consumer in the main group
 mgr.register_actor(Consumer())
 # in our "worker group", register the Worker actor
-mgr.add_process_group('worker_group', Worker)      # spawns a new process that ticks independently
+mgr.add_process_group('worker_group', Worker)      # spawns a new process that "ticks" independently
 }}}
 
 As the second argument to "add_process_group", specify a default actor class for the group so an instance of that actor class can be immediately instantiated upon the group being spawned.
