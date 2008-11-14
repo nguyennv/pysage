@@ -55,9 +55,16 @@ As the second argument to "add_process_group", specify a default actor class for
 ==Network Messages==
 Network messages can automatically pack and unpack themselves for purposes of being transported via UDP across the network.  "types" class variable needs to be defined for each message that is intended for network use.
 {{{
-class NetworkMessage(Message):
+class SmallMessage(Message):
     properties = ['content']
     types = ['p']
+    packet_type = 102
+
+class LargeMessage(Message):
+    properties = ['account_numbers']
+    types = ['ai']
+    packet_type = 103
+
 }}}
 besides all the format types supported by python's "struct" module, additional ones are supported by pysage:
 || *type* || *description* ||
