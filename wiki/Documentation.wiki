@@ -10,7 +10,8 @@ packing can be useful for sending messages across network.  This may prove to be
 {{{
 class MessageToPack(Message):
     properties = ('number')
-    types = ('i')
+    types = ('i',)
+    packet_type = 101
     def pack_number(self, value):
         return (value.x, value.y)
     def unpack_number(self, value):
