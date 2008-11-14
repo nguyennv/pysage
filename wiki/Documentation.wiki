@@ -62,6 +62,6 @@ class NetworkMessage(Message):
     types = ['p']
 }}}
 besides all the format types supported by python's "struct" module, additional ones are supported by pysage:
-||*type*||*description||
+||*type*||*description*||
 ||"an"||array of arbitrary length of type "n"||
 ||"S"||a long string of arbitrary size||
