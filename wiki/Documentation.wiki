@@ -47,6 +47,8 @@ class Worker(Actor):
 }}}
 calling "add_process_group" will internally start a separate process for the specified group that all actors that belong to that group will run in
 {{{
+# register the consumer in the main group
+mgr.register_actor(Consumer())
 # in this case, our "worker group"
 mgr.add_process_group('worker_group', Worker)
 }}}
