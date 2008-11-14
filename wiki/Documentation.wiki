@@ -61,4 +61,5 @@ class NetworkMessage(Message):
     properties = ['content']
     types = ['p']
 }}}
-
+besides all the format types supported by python's "struct" module, additional ones are supported by pysage:
+||a||b||
