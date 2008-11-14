@@ -9,7 +9,7 @@ For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 packing can be useful for sending messages across network.  This may prove to be useful in the future when pysage supports cross processing message queuing.
 {{{
 class MessageToPack(Message):
-    properties = ('number',)
+    properties = ['number']
     packet_type = 101
     def pack_number(self, value):
         return (value.x, value.y)
