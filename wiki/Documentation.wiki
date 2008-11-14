@@ -52,13 +52,4 @@ calling "add_process_group" will internally start a separate process for the spe
 mgr.add_process_group('worker_group', Worker)
 }}}
 
-specify a default actor class for the group so an instance of that actor can be immediately spawned upon group init
-
-{{{
-# omitting the group name automatically puts the listener in the main group/thread
-mgr.register_object(Consumer(), 'consumer') 
-
-# this puts the "worker" listener in the "worker_group" group/thread
-mgr.register_object(Worker(), 'worker', 'worker_group')
-}}}
-pysage is internally written to be thread-safe.  However, it is only as thread-safe as the user written code (messaging handling, updating, etc).
+As the second argument to "add_process_group", specify a default actor class for the group so an instance of that actor can be immediately instantiated upon the group being spawned.
