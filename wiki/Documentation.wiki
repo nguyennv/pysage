@@ -52,4 +52,4 @@ calling "add_process_group" will internally start a separate process for the spe
 mgr.add_process_group('worker_group', Worker)
 }}}
 
-As the second argument to "add_process_group", specify a default actor class for the group so an instance of that actor can be immediately instantiated upon the group being spawned.
+As the second argument to "add_process_group", specify a default actor class for the group so an instance of that actor class can be immediately instantiated upon the group being spawned.
