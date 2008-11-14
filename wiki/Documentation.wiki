@@ -41,8 +41,8 @@ class Worker(Actor):
         pass
     def update(self, evt):
         '''this automatically gets called in a separate thread per tick'''
-        # queuing is strongly advised instead of triggering in multi-threaded environment
-        mgr.queue_message(SomeWorkDoneMessage())
+        # queues a message to the main group
+        mgr.queue_message_to_group(mgr.PYSAGE_MAIN_GROUP, SomeWorkDoneMessage())
 
 }}}
 calling "add_process_group" will internally start a separate process for the specified group that all actors that belong to that group will run in
