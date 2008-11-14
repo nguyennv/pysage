@@ -39,8 +39,8 @@ class Worker(Actor):
     subscriptions = ['NeedWorkDoneMessage']
     def handle_NeedWorkDoneMessage(self, msg):
         pass
-    def update(self, evt):
-        '''this automatically gets called in a separate thread per tick'''
+    def update(self):
+        '''this gets called in the "worker_group" process ticks'''
         # queues a message to the main group
         mgr.queue_message_to_group(mgr.PYSAGE_MAIN_GROUP, SomeWorkDoneMessage())
 
