@@ -1,7 +1,5 @@
 #summary how to use pysage
 
-This tutorial is only applicable to version 1.2.2
-
 For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 
 =Tutorial=
@@ -64,4 +62,4 @@ class NetworkMessage(Message):
 besides all the format types supported by python's "struct" module, additional ones are supported by pysage:
 || *type* || *description* ||
 ||"an"||array of arbitrary length of type "n"||
-||"S"||a long string of arbitrary size||
+||"S"||a long string of arbitrary size, bigger than 255||
