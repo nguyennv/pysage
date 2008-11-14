@@ -53,3 +53,12 @@ mgr.add_process_group('worker_group', Worker)
 }}}
 
 As the second argument to "add_process_group", specify a default actor class for the group so an instance of that actor class can be immediately instantiated upon the group being spawned.
+
+==Network Messages==
+Network messages can automatically pack and unpack themselves for purposes of being transported via UDP across the network.  "types" class variable needs to be defined for each message that is intended for network use.
+{{{
+class NetworkMessage(Message):
+    properties = ['content']
+    types = ['p']
+}}}
+
