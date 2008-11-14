@@ -28,14 +28,15 @@ mgr.queue_message_to_object(self, id, msg)
 
 }}}
 ==Grouping (Automatic Threads Management)==
-Grouping can be very useful in partitioning object listeners into separate threads (processes in the future).  Objects in different groups have their own independent update/message handling loop.  And messages can be communicated across threads.  
+Grouping can be very useful in partitioning actors into separate processes.  Actors in different groups have their own independent update/message handling loop.  And messages can be communicated across groups via IPC.  
 {{{
 class Consumer(MessageReceiver):
     subscriptions = ['SomeWorkDoneMessage']
+    packet_type = 102
     def handle_SomeWorkDoneMessage(self, msg):
         pass
 
-class Worker(MessageReceiver):
+class Worker(Actor):
     subscriptions = ['NeedWorkDoneMessage']
     def handle_NeedWorkDoneMessage(self, msg):
         pass
@@ -45,14 +46,13 @@ class Worker(MessageReceiver):
         mgr.queue_message(SomeWorkDoneMessage())
 
 }}}
-calling "set_groups" will internally start a separate thread per group that all message receivers that belong to that group will run in
+calling "add_process_group" will internally start a separate process for the specified group that all actors that belong to that group will run in
 {{{
 # in this case, our "worker group"
-mgr.set_groups(['worker_group'])
+mgr.add_process_group('worker_group', Worker)
 }}}
 
-
-use the method `manager.register_object(instance, name[, groupname])` to put message listeners to a specific group
+specify a default actor class for the group so an instance of that actor can be immediately spawned upon group init
 
 {{{
 # omitting the group name automatically puts the listener in the main group/thread
