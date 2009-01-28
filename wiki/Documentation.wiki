@@ -26,7 +26,7 @@ mgr.trigger_to_actor(self, id, msg)
 mgr.queue_message_to_actor(self, id, msg)
 
 }}}
-==Grouping (Automatic Threads Management)==
+==Grouping (seperate os processes)==
 Grouping can be very useful in partitioning actors into separate processes.  Actors in different groups have their own independent update/message handling loop.  And messages can be communicated across groups via IPC.  
 {{{
 class Consumer(MessageReceiver):
