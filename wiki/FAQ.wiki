@@ -1,17 +1,15 @@
 #summary FAQ for Pysage
 #labels Featured
 
-1. What to call to propogate messages and call actor.update(...)?
+  # What to call to propogate messages and call actor.update(...)?
 {{{
 manager.tick(...)
 }}}
-
-2. What is the "subscriptions" actor class variable for?
+  # What is the "subscriptions" actor class variable for?
 it is used to denote what kind of messages this actor is subscribed to.  The name in this list needs to match the Message class name.
-
-3. How to implement a message handler for the subscribed message types?
-implement a method for the actor named "handle_MessageType".  I.E.:
+  # How to implement a message handler for the subscribed message types?
 {{{
+# implement a method for the actor named "handle_MessageType".  I.E.:
 class Foo(pysage.Actor):
     subscriptions=['SimpleMessage']
     def handle_SimpleMessage(self, msg):
