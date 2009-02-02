@@ -1,7 +1,7 @@
 #summary FAQ for Pysage
 #labels Featured
 
-  # ===What to call to propogate messages and call actor.update?===
+  # What to call to propogate messages and call actor.update(...)?
 {{{
 manager.tick(...)
 }}}
