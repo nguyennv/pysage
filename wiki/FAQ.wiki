@@ -1,2 +1,7 @@
 #summary FAQ for Pysage
 #labels Featured
+
+==What do I call each time to propogate messages and call actor.update==
+{{{
+manager.tick(...)
+}}}
