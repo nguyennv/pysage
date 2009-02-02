@@ -9,17 +9,17 @@ manager.tick(...)
 {{{
 # it is used to denote what kind of messages this actor is subscribed to.  
 # The name in this list needs to match the Message class name for which the actor is subscribing to.
-class SimpleMessage(pysage.Message):
+class SimpleMessage(Message):
     pass
 
-class SimpleActor(pysage.Actor):
+class SimpleActor(Actor):
     subscriptions = ['SimpleMessage']
 
 }}}
   # How to implement a message handler for the subscribed message types?
 {{{
 # implement a method for the actor named "handle_MessageType".  I.E.:
-class Foo(pysage.Actor):
+class Foo(Actor):
     subscriptions=['SimpleMessage']
     def handle_SimpleMessage(self, msg):
         pass
