@@ -6,7 +6,9 @@
 manager.tick(...)
 }}}
   # What is the "subscriptions" actor class variable for?
-it is used to denote what kind of messages this actor is subscribed to.  The name in this list needs to match the Message class name.
+{{{
+# it is used to denote what kind of messages this actor is subscribed to.  The name in this list needs to match the Message class name.
+}}}
   # How to implement a message handler for the subscribed message types?
 {{{
 # implement a method for the actor named "handle_MessageType".  I.E.:
