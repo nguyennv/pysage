@@ -1,7 +1,12 @@
 #summary FAQ for Pysage
 #labels Featured
 
+#
 ==What to call to propogate messages and call actor.update?==
 {{{
 manager.tick(...)
 }}}
+
+#
+==What is the "subscriptions" actor class variable for?==
+it is used to denote what kind of messages this actor is subscribed to.  The name in this list needs to match the Message class name.
