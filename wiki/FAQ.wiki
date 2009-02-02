@@ -19,8 +19,8 @@ class SimpleActor(Actor):
   # How to implement a message handler for the subscribed message types?
 {{{
 # implement a method for the actor named "handle_MessageType".  I.E.:
-class Foo(Actor):
-    subscriptions=['SimpleMessage']
+class SimpleActor(Actor):
+    subscriptions = ['SimpleMessage']
     def handle_SimpleMessage(self, msg):
         pass
 }}}
