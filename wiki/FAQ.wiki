@@ -7,7 +7,13 @@ manager.tick(...)
 }}}
   # What is the "subscriptions" actor class variable for?
 {{{
-# it is used to denote what kind of messages this actor is subscribed to.  The name in this list needs to match the Message class name.
+# it is used to denote what kind of messages this actor is subscribed to.  The name in this list needs to match the Message class name for which the actor is subscribing to.
+class SimpleMessage(pysage.Message):
+    pass
+
+class SimpleActor(pysage.Actor):
+    subscriptions = ['SimpleMessage']
+
 }}}
   # How to implement a message handler for the subscribed message types?
 {{{
