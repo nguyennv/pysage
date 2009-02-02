@@ -3,8 +3,8 @@
 
   # How do I create a actor manager?
 {{{
-  # actor manager is a singleton class.  Per process, there is ever only one manager.
-  # you can access it via:
+# actor manager is a singleton class.  Per process, there is ever only one manager.
+# you can access it via:
 manager = ActorManager.get_singleton()
 }}}
   # What to call to propogate messages and call actor.update(...)?
