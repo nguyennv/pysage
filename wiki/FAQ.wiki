@@ -1,4 +1,4 @@
-#summary FAQ for Pysage
+#summary FAQs for Pysage
 #labels Featured
 
   # What to call to propogate messages and call actor.update(...)?
