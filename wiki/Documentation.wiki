@@ -3,7 +3,7 @@
 
 For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 
-=Documentation=
+=Tutorial=
 ==Simple Usage==
 Here, we import pysage base classes:
 {{{
