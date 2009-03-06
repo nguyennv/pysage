@@ -5,6 +5,7 @@ For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 
 =Tutorial=
 ==Simple Usage==
+This is a line by line explanation of using pysage.  For more advanced usage, skip to the next section.
 Here, we import pysage base classes:
 {{{
 from pysage import Actor, ActorManager
