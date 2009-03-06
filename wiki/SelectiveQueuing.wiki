@@ -1,4 +1,3 @@
-#summary Selective Queuing
 ==Selective Queuing/Triggering==
 sends a particular actor a message if that actor implements this message type
 {{{
