@@ -1,7 +1,7 @@
 #summary Table of Contents
 #labels Featured
 
-This wiki is a repository of information about the _high-level message passing library_ PYSAGE.
+This wiki is a repository of information about the _high-level message passing library_ *pysage*.
 
 || *Sections* || *Description* ||
 ||[SimpleUsage Basics]|| _introduction to the basics of pysage API_ ||
