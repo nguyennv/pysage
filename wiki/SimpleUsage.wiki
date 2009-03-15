@@ -1,12 +1,57 @@
-#summary Simple Usage example
-= Introduction =
+#summary simple usage
 
-Add your content here.
+For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 
+=Tutorial=
+==Simple Usage==
+This is a line by line explanation of using pysage.  For more advanced usage, skip to the next section.
 
-= Details =
+Here, we import pysage base classes:
+{{{
+from pysage import Actor, ActorManager
+from pysage.messaging import Message
+}}}
+Next, we will create the actor manager.  Per os process (pysage group), you are guaranteed a single instance of the actor manager.  
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+The manager instance does all the book-keeping with actors, messages, and communication across processes/networks, so that you don't have to worry about it.  
+
+All you will use it for is to send messages, and manage actors and groups, which we will see later.
+{{{
+mgr = ActorManager.get_singleton()
+}}}
+To create a message type, define a class that inherits from "Message".  The "properties" class variable must be defined and is a list of strings.  The list will contain a set of attributes that this type of message will carry.
+{{{
+class SecretMessage(Message):
+    properties = ['content']
+}}}
+To create an actor type, define a class that inherits from "Actor".  The "subscriptions" class variable of an actor is a list of message type names that the actor will subscribe to.  For each of these message types, the actor class needs to define a method that starts with "handle`_`", and appended with the message type name.  Additionally, the "update" method of each actor will be called each time the actor manager "ticks".  We will talk about the "tick" in a bit.
+{{{
+class SecretActor(Actor):
+    subscriptions = ['SecretMessage']
+    def handle_SecretMessage(self, msg):
+        print 'the secret is %s' % msg.get_property('content')
+        return True # stop propagation
+    def update(self):
+        '''runs on every mgr.tick'''
+        pass
+}}}
+When you are ready to create an actor instance and have the actor start listening to messages that it subscribes to, call "register_actor" on the manager
+{{{
+mgr.register_actor(SecretActor(), 'secretactor')
+}}}
+"queue_message" queues an instance of a message in the manager's internal queue to be distributed when the manager "ticks"
+{{{
+mgr.queue_message(SecretMessage(content='big secret'))
+}}}
+"tick" first distributes messages to actors, then call actor.update on each actor.  This facilitates an asynchronous call because the message is only distributed later when "tick" is called.
+{{{
+mgr.tick() # prints "the secret is big secret"
+}}}
+"trigger" is the synchronous version of the "queue_message" call, it processes the supplied message immediately and does not wait for the actor manager's "tick"
+{{{
+mgr.trigger(SecretMessage(content='small secret')) # prints "the secret is small secret"
+}}}
+"find" returns back the instance of the registered actor with that name
+{{{
+mgr.find('secretactor') # returns the registered actor instance
+}}}
