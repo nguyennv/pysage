@@ -3,3 +3,8 @@
 
 ||Sections||Description||
 ||SimpleUsage||introduction to the basics of pysage API||
+||SelectiveQueuing||how to selectively queue/trigger messages||
+||MessagePacking||how to teach messages to pack/unpack their own attributes||
+||Grouping||spawning actors/objects in different pysage group in a seperate os process||
+||NetworkMessage||write a network message class such that it can be sent across groups/networks||
+||FAQ||questions and answers||
