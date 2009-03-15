@@ -3,8 +3,8 @@
 
 || *Sections* || *Description* ||
 ||[SimpleUsage Basics]|| _introduction to the basics of pysage API_ ||
-||[SelectiveQueuing Selective Queuing]||how to selectively queue/trigger messages||
-||[MessagePacking Message Packing]||how to teach messages to pack/unpack their own attributes||
-||[Grouping Grouping]||spawning actors/objects in different pysage group in a seperate os process||
-||[NetworkMessage Networking]||write a network message class such that it can be sent across groups/networks||
-||[FAQ FAQ]||questions and answers||
+||[SelectiveQueuing Selective Queuing]|| _how to selectively queue/trigger messages_ ||
+||[MessagePacking Message Packing]|| _how to teach messages to pack/unpack their own attributes_ ||
+||[Grouping Grouping]|| _spawning actors/objects in different pysage group in a seperate os process_ ||
+||[NetworkMessage Networking]|| _write a network message class such that it can be sent across groups/networks_ ||
+||[FAQ FAQ]|| _questions and answers_ ||
