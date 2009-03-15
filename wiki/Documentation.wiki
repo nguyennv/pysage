@@ -10,3 +10,7 @@ This wiki is a repository of information about the _high-level message passing l
 ||[Grouping Grouping]|| _spawning actors/objects in different pysage group in a seperate os process_ ||
 ||[NetworkMessage Networking]|| _write a network message class such that it can be sent across groups/networks_ ||
 ||[FAQ FAQ]|| _questions and answers_ ||
+
+For more detailed reference, refer to the [http://www.bigjinfo.com/pysage API Documentation].
+
+To ask questions, please use the [http://groups.google.com/group/pysage Mailing List]
