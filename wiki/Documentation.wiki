@@ -13,4 +13,4 @@ This wiki is a repository of information about the _high-level message passing l
 
 For more detailed reference, refer to the [http://www.bigjinfo.com/pysage API Documentation].
 
-To ask questions, please use the [http://groups.google.com/group/pysage Mailing List]
+To ask questions, please use the community [http://groups.google.com/group/pysage Mailing List].
