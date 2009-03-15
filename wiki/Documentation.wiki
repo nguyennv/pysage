@@ -2,7 +2,7 @@
 #labels Featured
 
 ||Sections||Description||
-||[http://code.google.com/p/pysage/wiki/Grouping Basics||introduction to the basics of pysage API||
+||[http://code.google.com/p/pysage/wiki/Grouping Basics]||introduction to the basics of pysage API||
 ||[http://code.google.com/p/pysage/wiki/SelectiveQueuing Selective Queuing]||how to selectively queue/trigger messages||
 ||[http://code.google.com/p/pysage/wiki/MessagePacking Message Packing]||how to teach messages to pack/unpack their own attributes||
 ||[http://code.google.com/p/pysage/wiki/Grouping Grouping]||spawning actors/objects in different pysage group in a seperate os process||
