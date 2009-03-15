@@ -1,5 +1,5 @@
 #summary Table of Contents
 #labels Featured
 
-||Simple Usage||Link||
-||Advanced||Link||
+||Sections||Description||
+||SimpleUsage||introduction to the basics of pysage API||
