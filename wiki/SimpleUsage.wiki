@@ -52,18 +52,18 @@ class BombMessage(Message):
     properties = ['damage']
     packet_type = 101
 }}}
-To create an actor type, define a class that inherits from "Actor".  The "subscriptions" class variable of an actor is a list of message type names that the actor will subscribe to.  In our example, the "Player" actor will listen to '"BombMessage"' which we defined above.
+To create an actor type, define a class that inherits from "Actor".  The "subscriptions" class variable of an actor is a list of message type names that the actor will subscribe to.  In our example, the "Player" actor will listen to "BombMessage" which we defined above.
 
 Additionally, you need to specify what behavior your actor will perform when the message is received.  For each of these message types, the actor class needs to define a method that starts with "handle`_`", and appended with the message type name.  Again, in our example, we will define a method named `"handle_BombMessage"` to print out something about the bomb.  This method will be called when a "BombMessage" is delivered to the actor by pysage.
 
-There is also the "update" method that is built-in to pysage "Actor" base class.  This method will be called each time the actor manager "ticks".  We will talk about "update" and "tick" in a bit.
+There is also the `"update"` method that is built-in to pysage "Actor" base class.  This method will be called each time the actor manager "ticks".  We will talk about `"update"` and `"tick"` in a bit.
 {{{
 class Player(Actor):
     subscriptions = ['BombMessage']
     def handle_BombMessage(self, msg):
         print 'I took %s damage from the bomb' % msg.get_property('damage')
 }}}
-When you are ready to create an actor instance and have the actor start listening to messages that it subscribes to, call "register_actor" on the manager
+When you are ready to create an actor instance and have the actor start listening to messages that it subscribes to, call `"register_actor"` on the manager
 {{{
 mgr.register_actor(SecretActor(), 'secretactor')
 }}}
