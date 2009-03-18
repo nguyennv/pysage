@@ -85,7 +85,7 @@ the above code runs the game loop, and `"tick"s` roughly 30 times/second.  This 
 {{{
 mgr.trigger(BombMessage(damage=10)) # prints "the secret is small secret"
 }}}
-"find" returns back the instance of the registered actor with that name
+`"find"` returns back the instance of the registered actor with that name
 {{{
 mgr.find('player1') # returns the registered actor instance
 }}}
