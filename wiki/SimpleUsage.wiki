@@ -4,7 +4,7 @@ For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 
 =Basics=
 ==line by line explanation==
-Let's take a look at the code you first saw from the front page, and we'll go over this line by line to give you an in-depth idea what pysage is doing for you.
+Let's take a look at the code from the front page.  We'll go over this line by line to give you an in-depth idea what pysage is doing for you.
 
 Here is the code:
 {{{
