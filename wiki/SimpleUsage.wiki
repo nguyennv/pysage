@@ -6,6 +6,7 @@ For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 ==Simple Usage==
 Let's take the code from the front page for example, and we'll go over this line by line to give you an in-depth idea what pysage is doing for you.
 
+Here is the code:
 {{{
 import time
 from pysage import Actor, ActorManager, Message
