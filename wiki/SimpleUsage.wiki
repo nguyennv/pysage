@@ -63,7 +63,7 @@ class Player(Actor):
     def handle_BombMessage(self, msg):
         print 'I took %s damage from the bomb' % msg.get_property('damage')
 }}}
-When you are ready to create an actor instance and have the actor start listening to messages that it subscribes to, call `"register_actor"` on the manager
+When you are ready to create an actor instance and have the actor start listening to messages that it subscribes to, call `"register_actor"` on the manager:
 {{{
 mgr.register_actor(Player(), 'player1')
 }}}
@@ -71,9 +71,11 @@ mgr.register_actor(Player(), 'player1')
 {{{
 mgr.queue_message(BombMessage(damage=10))
 }}}
-`"tick"` method first distributes messages to actors.
+`"tick"` method first distributes messages to actors, then call the actor's `"update"` method according to their `"priorities"`, which we will discuss later.
 {{{
-mgr.tick() # prints "the secret is big secret"
+while True:
+    processed = mgr.tick()
+    time.sleep(.03)
 }}}
 "trigger" is the synchronous version of the "queue_message" call, it processes the supplied message immediately and does not wait for the actor manager's "tick"
 {{{
