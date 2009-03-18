@@ -78,7 +78,7 @@ while True:
     time.sleep(.03)
 }}}
 
-the above code runs the game loop, and `"tick"s` roughly 30 times/second.  This concludes the simple game loop example.  To make this more interesting, you may want to define more behaviors on the message handler of the actor.  You may also define the '"update"` method on the `"Player"` actor to do something at every game step.
+the above code runs the game loop, and `"tick"s` roughly 30 times/second.  This concludes the simple game loop example.  To make this more interesting, you may want to define more behaviors on the message handler of the actor.  You may also define the `"update"` method on the `"Player"` actor to do something at every game step.
 
 ==other useful methods==
 "trigger" is the synchronous version of the "queue_message" call, it processes the supplied message immediately and does not wait for the actor manager's "tick"
