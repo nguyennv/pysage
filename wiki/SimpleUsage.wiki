@@ -4,7 +4,30 @@ For more API documentation, see [http://bigjinfo.com/pysage/ reference]
 
 =Tutorial=
 ==Simple Usage==
-This is a line by line explanation of using pysage.  For more advanced usage, skip to the next section.
+Let's take the code from the front page for example, and we'll go over this line by line to give you an in-depth idea what pysage is doing for you.
+
+{{{
+import time
+from pysage import Actor, ActorManager, Message
+
+mgr = ActorManager.get_singleton()
+
+class BombMessage(Message):
+    properties = ['damage']
+    packet_type = 101
+
+class Player(Actor):
+    subscriptions = ['BombMessage']
+    def handle_BombMessage(self, msg):
+        print 'I took %s damage from the bomb' % msg.get_property('damage')
+
+mgr.register_actor(Player(), 'player1')
+mgr.queue_message(BombMessage(damage=10))
+
+while True:
+    processed = mgr.tick()
+    time.sleep(.03)
+}}}
 
 Here, we import pysage base classes:
 {{{
