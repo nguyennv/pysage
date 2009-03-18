@@ -65,13 +65,13 @@ class Player(Actor):
 }}}
 When you are ready to create an actor instance and have the actor start listening to messages that it subscribes to, call `"register_actor"` on the manager
 {{{
-mgr.register_actor(SecretActor(), 'secretactor')
+mgr.register_actor(Player(), 'player1')
 }}}
-"queue_message" queues an instance of a message in the manager's internal queue to be distributed when the manager "ticks"
+`"queue_message"` queues an instance of a message in the manager's internal queue to be distributed when the manager `"tick"`s.  This facilitates an asynchronous call because the message is only distributed later when manager's `"tick"` is called.
 {{{
-mgr.queue_message(SecretMessage(content='big secret'))
+mgr.queue_message(BombMessage(damage=10))
 }}}
-"tick" first distributes messages to actors, then call actor.update on each actor.  This facilitates an asynchronous call because the message is only distributed later when "tick" is called.
+`"tick"` method first distributes messages to actors.
 {{{
 mgr.tick() # prints "the secret is big secret"
 }}}
