@@ -46,13 +46,13 @@ We will use it to send messages, and manage actors here.  You will find out in l
 {{{
 mgr = ActorManager.get_singleton()
 }}}
-To create a message type, define a class that inherits from "Message".  The "properties" class variable must be defined and is a list of strings.  The list will contain a set of attributes that this type of message will carry.  The "packet_type" is an integer between 101-255 that unique identifies this message type.  This will become especially useful when you need to send this message across groups or networks.
+To create a message type, define a class that inherits from "Message".  The `"properties"` class variable must be defined and is a list of strings.  The list will contain a set of attributes that this type of message will carry.  The "packet_type" is an integer between 101-255 that unique identifies this message type.  This will become especially useful when you need to send this message across groups or networks.
 {{{
 class BombMessage(Message):
     properties = ['damage']
     packet_type = 101
 }}}
-To create an actor type, define a class that inherits from "Actor".  The "subscriptions" class variable of an actor is a list of message type names that the actor will subscribe to.  In our example, the "Player" actor will listen to "BombMessage" which we defined above.
+To create an actor type, define a class that inherits from "Actor".  The `"subscriptions"` class variable of an actor is a list of message type names that the actor will subscribe to.  In our example, the "Player" actor will listen to "BombMessage" which we defined above.
 
 Additionally, you need to specify what behavior your actor will perform when the message is received.  For each of these message types, the actor class needs to define a method that starts with "handle`_`", and appended with the message type name.  Again, in our example, we will define a method named `"handle_BombMessage"` to print out something about the bomb.  This method will be called when a "BombMessage" is delivered to the actor by pysage.
 
