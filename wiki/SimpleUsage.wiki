@@ -38,7 +38,7 @@ Next, we will create the actor manager.  Per os process (pysage group), you are 
 
 The manager instance does all the book-keeping with actors, messages, and communication across processes/networks, so that you don't have to worry about it.  
 
-All you will use it for is to send messages, and manage actors and groups, which we will see later.
+We will use it to send messages, and manage actors here.  You will find out in later chapters that the actor manager will also assist you with managing pysage groups and networks.
 {{{
 mgr = ActorManager.get_singleton()
 }}}
