@@ -7,6 +7,7 @@ Below is a list of topics for which you may be interested in.
 
 || *Sections* || *Description* ||
 ||[SimpleUsage Basics]|| _introduction to the basics of pysage API_ ||
+||[SendingMessage Sending Messages]|| _explains different ways a message can be sent||
 ||[SelectiveQueuing Selective Queuing]|| _how to selectively queue/trigger messages_ ||
 ||[MessagePacking Message Packing]|| _how to teach messages to pack/unpack their own attributes_ ||
 ||[Grouping Grouping]|| _spawning actors/objects in different pysage group in a seperate os process_ ||
