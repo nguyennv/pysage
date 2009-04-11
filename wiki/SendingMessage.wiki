@@ -1,7 +1,7 @@
 #summary outlines pysage API for sending messages
 
 || *Function* || *Local* || *IPC* || *Network* || *description* ||
-||trigger||y||n||n||used to immediately process a message synchrounously||
-||queue_message||y||n||n||puts the message on a queue.  Message will be processed next time "tick" is called||
-||queue_message_to_group||n||y||n||immediately delivers the message to another pysage group via IPC.  It is up to the called group to process the message||
-||send_message||n||n||y||immediately delivers the message to another pysage compatible node.  It's up to the called node to process the message||
+||trigger||y||||||used to immediately process a message synchrounously||
+||queue_message||y||||||puts the message on a queue.  Message will be processed next time "tick" is called||
+||queue_message_to_group||||y||||immediately delivers the message to another pysage group via IPC.  It is up to the called group to process the message||
+||send_message||||||y||immediately delivers the message to another pysage compatible node.  It's up to the called node to process the message||
