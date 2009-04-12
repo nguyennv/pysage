@@ -5,6 +5,8 @@ Messages can be sent through three different kinds of channels:
   # IPC: messages can be delivered to another pysage group.  Messages will be serialized and deserailized and sent over a platform specific channel (domain socket or a named pipe).
   # Network: messages will be serialized and deserialized.  The delivery depends on the network transport protocol choosen by the user.  (so far raknet is offered, raw TCP/UDP coming).
 
+ActorManager class instances offer the following classes of methods:
+
 || *Function* || *Local* || *IPC* || *Network* || *description* ||
 ||trigger||y||_||_||used to immediately process a message synchrounously||
 ||queue_message||y||_||_||puts the message on a queue.  Message will be processed next time "tick" is called||
