@@ -3,7 +3,7 @@
 Messages can be sent through three different kinds of channels:
   # Local: messages are delivered to actors in the local process.  No serialization or deserialization is done on the message.  The message is delivered as is, a python object.
   # IPC: messages can be delivered to another pysage group.  Messages will be serialized and deserailized and sent over a platform specific channel (domain socket or a named pipe).
-  # Network: messages will be serialized and deserialized.  The delivery depends on the network transport protocol choosen by the user.  (so far raknet is offered, raw TCP/UDP coming).
+  # Network: messages will be serialized and deserialized.  The delivery depends on the network transport protocol chosen by the user.  (so far raknet is offered, raw TCP/UDP coming).
 
 ActorManager class offers the following types of methods:
 
