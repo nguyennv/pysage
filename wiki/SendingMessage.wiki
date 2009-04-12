@@ -9,6 +9,6 @@ ActorManager class offers the following types of methods:
 
 || *Function* || *Local* || *IPC* || *Network* || *description* ||
 ||`trigger`||y||_||_||used to immediately process a message synchronously.  Returns after the message has been processed.||
-||`queue_message`||y||_||_||puts the message on a queue.  Message will be processed next time "tick" is called||
+||`queue_message`||y||_||_||puts the message on a queue.  Returns immediately.  Message will be processed next time "tick" is called locally||
 ||`queue_message_to_group`||_||y||_||immediately delivers the message to another pysage group via IPC.  It is up to the called group to process the message||
 ||`send_message`||_||_||y||immediately delivers the message to another pysage compatible node.  It's up to the called node to process the message||
