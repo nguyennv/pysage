@@ -8,12 +8,17 @@ class SmallMessage(Message):
     types = ['p']
     packet_type = 103
 
+mgr.queue_message(SmallMessage(content="hello world"))
+
 class LargeMessage(Message):
     properties = ['account_numbers']
     types = ['ai']
     packet_type = 104
 
+mgr.queue_message(LargeMessage(account_numbers=[100,101,102,109]))
+
 }}}
+
 besides all the format types supported by python's "struct" module, additional ones are supported by pysage:
 || *Type* || *Description* ||
 ||"an"||array of arbitrary length of type "n"||
