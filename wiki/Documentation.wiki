@@ -14,6 +14,6 @@ Below is a list of topics for which you may be interested in.
 ||[NetworkMessage Networking]|| _write a network message class such that it can be sent across groups/networks_ ||
 ||[FAQ FAQ]|| _questions and answers_ ||
 
-For more detailed reference, refer to the [http://www.bigjinfo.com/pysage API Documentation].
+For more detailed reference, refer to the [http://www.bigjinfo.com/pysage API Reference].
 
 To ask questions, please use the community [http://groups.google.com/group/pysage Mailing List].
