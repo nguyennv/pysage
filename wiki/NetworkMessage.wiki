@@ -36,3 +36,9 @@ Alternatively, you can have the server listen on an auto-gened port:
 mgr.listen('localhost', 0) # server will find an available port and listens on that
 host, port = nmanager.transport.address # this will return the port that the server is now bound to
 }}}
+
+On the client side, use "send_message" to talk to the server:
+
+{{{
+mgr.send_message(ACKMessage(), address=('localhost', msg.get_property('port')))
+}}}
