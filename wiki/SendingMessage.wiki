@@ -1,6 +1,10 @@
 #summary outlines pysage API for sending messages
 
-mgr.send_message(MyMessage(content="1234"))
+Pass in your message properties as keyword arguments to the constructor.
+
+{{{
+mgr.send_message(MyMessage(content="1234"), address=(host, port))
+}}}
 
 Messages can be sent through three different kinds of channels:
   # Local: messages are delivered to actors in the local process.  No serialization or deserialization is done on the message.  The message is delivered as is, a python object.
