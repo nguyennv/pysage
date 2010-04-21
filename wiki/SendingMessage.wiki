@@ -1,5 +1,11 @@
 #summary outlines pysage API for sending messages
 
+For networked messages, first connect to the server.
+
+{{{
+mgr.connect(host, port)
+}}}
+
 Pass in your message properties as keyword arguments to the constructor.
 
 {{{
