@@ -1,9 +1,0 @@
-#summary selective queuing
-
-==Selective Queuing/Triggering==
-sends a particular actor a message if that actor implements this message type
-{{{
-mgr.trigger_to_actor(self, id, msg)
-mgr.queue_message_to_actor(self, id, msg)
-
-}}}
